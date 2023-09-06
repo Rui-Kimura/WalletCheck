@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\MainForm">
+      <UniqueIdentifier>{87428e9a-0303-4af5-b3c3-8f0e7a2d0ba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\AddDataForm">
+      <UniqueIdentifier>{f11a717c-3040-48c0-b24d-c9566c11be2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\CreateNewForm">
+      <UniqueIdentifier>{c30a47a2-8784-4848-8d35-ae2f798099d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\MainForm\Events">
+      <UniqueIdentifier>{d18567d0-06fd-48ea-8fdc-04b0fa0749e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\original">
+      <UniqueIdentifier>{777474da-9f76-4129-a30e-5c98efe087ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ManageItemsForm">
+      <UniqueIdentifier>{abfc9028-8f41-44a1-9fa7-5feb278d9bc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\original">
+      <UniqueIdentifier>{97856bf8-7979-49c9-8657-48d0a170cfd0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainForm.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateNewForm.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="AddDataForm.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="app_config.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\original</Filter>
+    </ClInclude>
+    <ClInclude Include="csv.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\original</Filter>
+    </ClInclude>
+    <ClInclude Include="string_convertr.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\original</Filter>
+    </ClInclude>
+    <ClInclude Include="ManageItemsForm.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="graph.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\original</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MainForm_process.cpp">
+      <Filter>ソース ファイル\MainForm</Filter>
+    </ClCompile>
+    <ClCompile Include="AddDataForm_Events.cpp">
+      <Filter>ソース ファイル\AddDataForm</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateNewForm_Events.cpp">
+      <Filter>ソース ファイル\CreateNewForm</Filter>
+    </ClCompile>
+    <ClCompile Include="AddDataForm_Process.cpp">
+      <Filter>ソース ファイル\AddDataForm</Filter>
+    </ClCompile>
+    <ClCompile Include="MainForm_Events.cpp">
+      <Filter>ソース ファイル\MainForm\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateNewForm_Process.cpp">
+      <Filter>ソース ファイル\CreateNewForm</Filter>
+    </ClCompile>
+    <ClCompile Include="string_convertr.cpp">
+      <Filter>ソース ファイル\original</Filter>
+    </ClCompile>
+    <ClCompile Include="csv.cpp">
+      <Filter>ソース ファイル\original</Filter>
+    </ClCompile>
+    <ClCompile Include="app_config.cpp">
+      <Filter>ソース ファイル\original</Filter>
+    </ClCompile>
+    <ClCompile Include="ManageItemForm_Events.cpp">
+      <Filter>ソース ファイル\ManageItemsForm</Filter>
+    </ClCompile>
+    <ClCompile Include="main_tab_controls_Events.cpp">
+      <Filter>ソース ファイル\MainForm\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="balance_tab_controls_Events.cpp">
+      <Filter>ソース ファイル\MainForm\Events</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+</Project>
