@@ -678,7 +678,6 @@ Void WalletCheck::MainForm::_load_grid_and_graph()
 	_load_budget_graph();
 	_load_budget_payment();
 	tabs->Enabled = true;
-	add_data_button->Enabled = true;
 	delete_data_button->Enabled = true;
 }
 
