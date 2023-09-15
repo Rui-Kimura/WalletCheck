@@ -1,3 +1,8 @@
+/*
+	csv.cpp
+	csv.h‚Ìˆ—‚Å‚·B
+*/
+
 #include "csv.h"
 #include "string_convertr.h"
 #include "MainForm.h"

@@ -1,3 +1,8 @@
+/*
+	ManageItemForm_Events.cpp
+	ManageItemFormのイベントです。
+*/
+
 #include "ManageItemsForm.h"
 #include "app_config.h"
 #include "csv.h"

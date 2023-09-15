@@ -1,3 +1,8 @@
+/*
+	app_config.h
+	設定ファイル管理クラスです。
+*/
+
 #pragma once
 
 using namespace System;
@@ -5,6 +10,9 @@ using namespace System::Configuration;
 
 namespace app_config
 {
+	/// <summary>
+	/// 設定ファイルを走査します。
+	/// </summary>
 	public ref class config
 	{
 		public:

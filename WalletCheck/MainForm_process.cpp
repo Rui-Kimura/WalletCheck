@@ -1,3 +1,15 @@
+/*
+	MainForm_Process.cpp
+	MainFormの定義処理です。
+*/
+
+#define UPDATE_CHECK_URL "https://drive.google.com/uc?id=1IXNywsIMfF450Is0rQ8uToCI7wO3FUc5"	
+#define UPDATER_URL "https://drive.google.com/uc?id=1YUeH_mI0zC4p7wb0DEx7Sc6AtMLvE_hr"
+#define UPDATER_ZIP "Update.zip"
+#define UPDATER_NAME "Update.exe"
+
+//最新のバージョン情報のURL（GoogleDriveファイル直リンク）
+
 #include "MainForm.h"
 #include "CreateNewForm.h"
 #include "AddDataForm.h"
@@ -19,9 +31,12 @@ using namespace System;
 using namespace System::ComponentModel;
 using namespace System::Collections;
 using namespace System::Configuration;
-using namespace System::Windows::Forms;
 using namespace System::Drawing;
+using namespace System::Diagnostics;
 using namespace System::IO;
+using namespace System::IO::Compression;
+using namespace System::Net;
+using namespace System::Windows::Forms;
 
 //Public
 
@@ -31,7 +46,53 @@ Void WalletCheck::MainForm::Message(String^ message, String^ title)
 	MessageBox::Show(message, title, MessageBoxButtons::OK);
 }
 
+int WalletCheck::MainForm::check_update()
+{
+	return _check_update();
+}
+
 //Private
+
+/// <summary>対象の型の呼び出し元以下の子コントロールを列挙します。</summary>
+Void WalletCheck::MainForm::find_control(Object ^ sender, Type ^ type, List<Control^>% list)
+{
+	Control^ sender_control = (Control^)sender;
+
+	for each (Control ^ c_control in sender_control->Controls)
+	{
+		if (c_control->GetType()->Equals(type))	//求めている型と同じだったら
+		{
+			list.Add(c_control);
+		}
+		if (!c_control->GetType()->Equals(FlowLayoutPanel::typeid))	//FlowLayoutPanelはレイアウトに影響を与えるので除外
+			find_control(c_control, type, list);
+	}
+}
+
+//コントロールの親を設定します。
+Void WalletCheck::MainForm::_set_parent(Object^ sender)
+{
+	List<Control^> panels;
+	find_control(sender,Panel::typeid, panels);
+	for each (Control ^ control in panels)
+	{
+		List<Control^> chart;
+		List<Control^> other_controls;
+
+		find_control(control, Chart::typeid, chart);	//chartを探す
+		find_control(control, Label::typeid, other_controls);	//labelを探す
+		find_control(control, FlowLayoutPanel::typeid, other_controls);	//FlowLayoutPanelを探す
+		if (chart.Count > 0 && other_controls.Count > 0)
+		{
+			for each (Control ^ c_control in other_controls)
+			{
+				c_control->Parent = chart[0];	//label,FlowLayoutPanelの親にchartを設定
+			}
+		}
+	}
+}
+
+
 
 /// <summary>今日の月を取得します。</summary>
 int WalletCheck::MainForm::_GetYear()
@@ -59,13 +120,29 @@ String^ WalletCheck::MainForm::_GetBookname_From_Path(System::String^ path)
 	return bookname;
 }
 
+/// <summary>ページのパスから年、月を抜き出します。</summary>
+Void WalletCheck::MainForm::_GetYearMonth_From_PagePath(String^ pagepath, int% year, int% month)
+{
+	String^ cache_year;	
+	String^ cache_month;
+
+	pagepath = pagepath->Replace(_opening_bookpath + "\\", "");	//\以前の文字列を削除
+	pagepath = pagepath->Replace(".wc.csv", "");	//拡張子部分を削除
+	for (int i = 0; i < 4; i++)	//年を取り出し
+	{
+		cache_year += pagepath[i];
+	}
+	cache_month = pagepath->Replace(cache_year + "_", "");//YYYY_MMからYYYY_を削除
+
+	year = _StringToInt(cache_year);
+	month = _StringToInt(cache_month);
+}
+
 /// <summary>引数をもとにページのパスを作成します。</summary>
 String^ WalletCheck::MainForm::_MakePagePath(String^ bookpath_s, int year, int month)
 {
 	return bookpath_s + "\\" + year + "_" + month + ".wc.csv";	///パスを～\book名\YYYY_M.csvに整形
 }
-
-
 
 /// <summary>Stringをintに変換します。</summary>
 long long  WalletCheck::MainForm::_StringToInt(String^ strnum)
@@ -98,7 +175,9 @@ Void WalletCheck::MainForm::_CreateBook()
 		_register_recently(_opening_bookpath);	//アプリケーション設定の最近使用したファイルに追加
 		List<List<String^>^> page_data;
 		_OpenBookPage(_opening_bookpath, _opening_year, _opening_month,page_data);
-		_load_grid(this,"history_grid", page_data);
+		_load_grid_and_graph();
+		tabs->SelectedIndex = 0;
+		tabs->Enabled = true;
 	}
 }
 
@@ -124,42 +203,27 @@ Void WalletCheck::MainForm::_OpenBook(String^ bookpath_s)
 		{
 			List<List<String^>^> page_data;
 			_OpenBookPage(_opening_bookpath, _opening_year, _opening_month,page_data);	//あったら開く
-			_load_grid(this,"history_grid",page_data);
 			return;
 		}
 	}
 	/*以下今月のファイルが無かった時*/
 	/*フォルダ内の一番初めに見つかったファイルを開く*/
 	//ファイル名から年、月を取り出すための仮置き変数
-	String^ cache_ym;	//YYY
-	String^ cache_year;
-	String^ cache_month;
-
-	cache_ym = filenames[0]->Replace(_opening_bookpath + "\\", "");	//\以前の文字列を削除
-	cache_ym = cache_ym->Replace(".wc.csv", "");	//拡張子部分を削除
-	for (int i = 0; i < 4; i++)	//年を取り出し
-	{
-		cache_year += cache_ym[i];
-	}
-	cache_month = cache_ym->Replace(cache_year + "_", "");//YYYY_MMからYYYY_を削除
-	_opening_year = _StringToInt(cache_year);
-	_opening_month = _StringToInt(cache_month);
-	List<List<String^>^> page_data;
-	_OpenBookPage(_opening_bookpath, _opening_year, _opening_month,page_data);
-	_load_grid(this,"history_grid", page_data);
+	int year, month;
+	_GetYearMonth_From_PagePath(filenames[0], year, month);
+	_opening_year = year;
+	_opening_month = month;
 }
 
 /// <summary>Bookのページを開きます。</summary>
 Void WalletCheck::MainForm::_OpenBookPage(System::String^ bookpath_s, int year, int month,List<List<String^>^>% return_L)
 {
 	char pagepath[CHAR_STR_BUF];	//ページへのpathをchar[]に入れる変数
-	history_grid->Rows->Clear();	//表の項目を全削除
 	string_convert::SystemString_to_CString(_MakePagePath(bookpath_s, year, month), pagepath);
 	if (filesystem::is_regular_file(pagepath) == false)	//ページのファイルが存在しなかったら
 	{
 		ofstream output_file(pagepath);	//ページのファイルを新規作成
 		_OpenBookPage(bookpath_s, year, month,return_L);	//再帰的にOpenBookPage
-		_load_grid(this,"history_grid",return_L);
 		return;	//中断
 	}
 	
@@ -172,18 +236,21 @@ Void WalletCheck::MainForm::_OpenBookPage(System::String^ bookpath_s, int year, 
 	{
 		//1行のcsvをvectorに変換
 		List<String^> str_comma_L;
-		csv_manager::Parse(string_convert::string_to_SystemString(bufstr),str_comma_L);;
-		return_L.Add(%str_comma_L);
+		csv_manager::Parse(string_convert::string_to_SystemString(bufstr),str_comma_L);
+		if (str_comma_L.Count != 5)
+		{
+			Message("破損したデータです。破損したデータは削除されます。", "エラー");
+		}
+		else
+		{
+			return_L.Add(% str_comma_L);
+		}
 	}
-	month_label->Text = year + "年 " + month + "月";	//年月ラベルを開いているファイルの物に更新
-	bookname_label->Text = _GetBookname_From_Path(bookpath_s);	//Book名をパスから取得＆ラベルを更新
-
-	previous_button->Enabled = true;	//前後のページに移動できるようにする
-	next_button->Enabled = true;
+	
 }
 
 /// <summary>Bookを保存します。</summary>
-Void WalletCheck::MainForm::_SaveBook(System::String^ bookpath_s, int year, int month)
+Void WalletCheck::MainForm::_SaveBookPage(System::String^ bookpath_s, int year, int month)
 {
 	history_grid->Sort(history_grid->Columns[0], ListSortDirection::Ascending);	//日付をもとに並び替え
 
@@ -209,12 +276,11 @@ Void WalletCheck::MainForm::_SaveBook(System::String^ bookpath_s, int year, int 
 	}
 }
 
-
 /// <summary>DataGridViewに値を追加します。</summary>
-Void WalletCheck::MainForm::_load_grid(Object^ sender,String^ gridname, List<List<String^>^>% values)
+Void WalletCheck::MainForm::_load_grid(String^ gridname, List<List<String^>^>% values)
 {
 	DataGridView^ grid = (DataGridView^)this->Controls->Find(gridname, true)[0];
-
+	grid->Rows->Clear();
 	for (int i = 0; i < values.Count; i++)
 	{
 		grid->Rows->Add();	//表に空の行を追加
@@ -233,6 +299,20 @@ Void WalletCheck::MainForm::_load_grid(Object^ sender,String^ gridname, List<Lis
 			}
 		}
 	}
+	_diaplay_pageinfo();
+}
+
+/// <summary>ページの情報をラベルなどに表示します。</summary>
+Void WalletCheck::MainForm::_diaplay_pageinfo()
+{
+	String^ bookname = _GetBookname_From_Path(_opening_bookpath);	//Book名をパスから取得＆ラベルを更新
+
+	month_label->Text = _opening_year + "年 " + _opening_month + "月";	//年月ラベルを開いているファイルの物に更新
+	bookname_label->Text = bookname;
+	this->Text = bookname + " - WalletCheck";
+
+	previous_button->Enabled = true;	//前後のページに移動できるようにする
+	next_button->Enabled = true;
 }
 
 /// <summary>アプリケーション設定の最近使ったファイルに登録します。</summary>
@@ -279,12 +359,36 @@ Void WalletCheck::MainForm::_show_recentbook_toolstripmenu()
 	}
 }
 
-int WalletCheck::MainForm::_sort_donutdata(DonutData^ a, DonutData^ b)
+Void WalletCheck::MainForm::_sort_donutdata_list(List<DonutData^>% list)
 {
+	//データを値で整列する
+	/// TODO:余裕があればクイックソートなどに変更する
+	for (int i = 0; i < list.Count; i++)
+	{
+		int max_index = 0;
+		for (int n = i; n < list.Count; n++)
+		{
+			if (abs(list[n]->value) < abs(list[i]->value))
+			{
+				max_index = n;
+			}
+		}
+		DonutData^ d = list[i];
+		list[i] = list[max_index];
+		list[max_index] = d;
+	}
 
-	return 0;
+	//その他は一番最後にする
+	for (int i = 0; i < list.Count; i++)
+	{
+		if (list[i]->text == "その他")
+		{
+			DonutData^ cache = list[i];
+			list.RemoveAt(i);
+			list.Add(cache);
+		}
+	}
 }
-
 /// <summary>グラフを描画します。</summary>
 Void WalletCheck::MainForm::_load_donut_graph(Object^ targetform, String^ chartname,List<DonutData^>% donutdata)
 {
@@ -292,7 +396,7 @@ Void WalletCheck::MainForm::_load_donut_graph(Object^ targetform, String^ chartn
 	Chart^ chart = (Chart^)form->Controls->Find(chartname,true)[0];
 	chart->Series[0]->Points->Clear();
 
-	//donutdata.Sort();
+	_sort_donutdata_list(donutdata);
 
 	for (int i = 0; i < donutdata.Count; i++)
 	{
@@ -300,43 +404,356 @@ Void WalletCheck::MainForm::_load_donut_graph(Object^ targetform, String^ chartn
 		chart->Series[0]->Points->Add(dp);
 		chart->Series[0]->Points[i]->LegendText = donutdata[i]->text;
 	}
-	
 }
 
-Void WalletCheck::MainForm::_load_monthly_balance_graph()
+/// <summary>収支のグラフを読み込みます。</summary>
+Void WalletCheck::MainForm::_load_balance_graph(String^ chartname, long long% spending, long long% income)
 {
-	
-	List<List<String^>^> grid_data;
-	_OpenBookPage(_opening_bookpath, _opening_year, _opening_month,grid_data);
+	Chart^ chart  = (Chart^)this->Controls->Find(chartname, true)[0];
 
-	int spending = 0;
-	int income = 0;
-	for (int i = 0; i < grid_data.Count; i++)
+	List<DonutData^> donut_data;
+	DonutData^ data = gcnew DonutData(spending, "支出");
+	donut_data.Add(data);
+	data = gcnew DonutData(income, "収入");
+	donut_data.Add(data);
+	_load_donut_graph(this, chartname, donut_data);
+	if (abs(spending) > income)
 	{
-		
-		List<String^>^ row = grid_data[i];
-		
-		if (Int64::Parse(row[4]) > 0)
+		chart->Series[0]->Points[0]->Color = Color::DeepPink;
+		chart->Series[0]->Points[1]->Color = Color::DeepSkyBlue;
+	}
+	else
+	{
+		chart->Series[0]->Points[0]->Color = Color::DeepSkyBlue;
+		chart->Series[0]->Points[1]->Color = Color::DeepPink;
+	}
+}
+
+/// <summary>月間収支を取得します。</summary>
+Void WalletCheck::MainForm::_get_monthly_spending_and_income(int year, int month, long long% spending, long long% income)
+{
+	List<List<String^>^> grid_data;
+	_OpenBookPage(_opening_bookpath, year, month, grid_data);
+
+	for each(List<String^>^ row in grid_data)
+	{
+		long long money = _StringToInt(row[4]);
+		if (money > 0)	//金額が正なら収入
 		{
-			income += Int64::Parse(row[4]);
+			income += money;
 		}
 		else
 		{
-			spending += Int64::Parse(row[4]);
+			spending += money;
 		}
-		
-		List<DonutData^> donut_data;
-		DonutData^ data = gcnew DonutData;
-		data->value = spending;
-		data->text = "支出";
-		donut_data.Add(data);
-		data = gcnew DonutData;
-		data->value = income;
-		data->text = "収入";
-		donut_data.Add(data);
-
-		_load_donut_graph(this,"monthly_balance_chart", donut_data);
 	}
+}
+
+/// <summary>月間収支のグラフを読み込みます。</summary>
+Void WalletCheck::MainForm::_load_monthly_balance_graph()
+{
+
+	long long spending = 0;
+	long long income = 0;
+	_get_monthly_spending_and_income(_opening_year, _opening_month, spending, income);
+	_load_balance_graph("monthly_balance_chart",spending,income);
+	monthly_label->Text = _opening_month + "月の収支";
+	monthly_income->Text = "収入：" + income.ToString("C0");
+	monthly_spending->Text = "支出：" + spending.ToString("C0");
+
 };
 
+/// <summary>年間収支を取得します。</summary>
+Void WalletCheck::MainForm::_get_yearly_spending_and_income(int year, long long% spending, long long% income)
+{
+	spending = 0;
+	income = 0;
+	for (int i = 1; i <= 12; i++)	//12カ月繰り返す
+	{
+		int month = i;	
+		_get_monthly_spending_and_income(year, month, spending, income);
+	}
+}
 
+/// <summary>年間収支のグラフを読み込みます。</summary>
+Void WalletCheck::MainForm::_load_yearly_balance_graph()
+{
+	long long spending = 0;
+	long long income = 0;
+	_get_yearly_spending_and_income(_opening_year, spending, income);
+	_load_balance_graph("yearly_balance_chart", spending, income);
+	yearly_label->Text = _opening_year + "年の収支";
+	yearly_income->Text = "収入：" + income.ToString("C0");
+	yearly_spending->Text = "支出：" + spending.ToString("C0");
+}
+
+/// <summary>カテゴリ別月間収支を取得します。</summary>
+Void WalletCheck::MainForm::_get_monthly_category(int year, int month, List<DonutData^>% data,bool type)
+{
+
+	List<List<String^>^> bookdata;
+	_OpenBookPage(_opening_bookpath, year, month, bookdata);
+	for each(List<String^>^ row in bookdata)
+	{
+		long long money = _StringToInt(row[4]);
+		if (money < 0 && type)
+			continue;
+		if (money > 0 && !type)
+			continue;
+		String^ category = row[1];
+		int data_index = -1;
+
+		// data内に既に存在するカテゴリか調べ、存在していたらindexを取得する
+		for (int i = 0; i < data.Count; i++)
+		{
+			if (data[i]->text == category)
+			{
+				data_index = i;
+				break;
+			}
+		}
+
+		if (data_index == -1)	//indexが初期値のまま＝新しいカテゴリ
+		{
+			DonutData^ donutdata = gcnew DonutData(money, category);
+			data.Add(donutdata);
+		}
+		else	//指定のindexのカテゴリの金額に追加
+		{
+			data[data_index]->value += money;
+		}
+	}
+}
+
+/// <summary>カテゴリ別月間支出のグラフを読み込みます。</summary>
+Void WalletCheck::MainForm::_load_monthly_category_spending_graph()
+{
+	List<DonutData^> data;
+	long long spending = 0;
+	long long income = 0;
+	_get_monthly_spending_and_income(_opening_year, _opening_month, spending,income);
+	_get_monthly_category(_opening_year, _opening_month, data,false);
+	_load_donut_graph(this, "monthly_category_spending_chart", data);
+	monthly_category_spending_label->Text = _opening_month + "月のカテゴリ別支出";
+	monthly_category_spending->Text = "支出：" + spending.ToString("C0");
+}
+
+/// <summary>カテゴリ別年間支出を読み込みます。</summary>
+Void WalletCheck::MainForm::_get_yearly_category(int year, List<DonutData^>% data,bool type)
+{
+	for (int i = 1; i <= 12; i++)
+	{
+		int month = i;
+		_get_monthly_category(year, month, data,type);
+	}
+}
+
+/// <summary>カテゴリ別年間支出のグラフを読み込みます。 </summary>
+Void WalletCheck::MainForm::_load_yearly_category_spending_graph()
+{
+	List<DonutData^> data;
+	long long spending = 0;
+	long long income = 0;
+	_get_yearly_spending_and_income(_opening_year,spending, income);
+	_get_yearly_category(_opening_year, data,false);
+	_load_donut_graph(this, "yearly_category_spending_chart", data);
+	yearly_category_spending_label->Text = _opening_year + "年のカテゴリ別支出";
+	yearly_category_spending->Text = "支出：" + spending.ToString("C0");
+}
+
+/// <summary>カテゴリ別月間収入のグラフを読み込みます。</summary>
+Void WalletCheck::MainForm::_load_monthly_category_income_graph()
+{
+	List<DonutData^> data;
+	long long spending = 0;
+	long long income = 0;
+	_get_monthly_spending_and_income(_opening_year, _opening_month, spending, income);
+	_get_monthly_category(_opening_year, _opening_month, data, true);
+	_load_donut_graph(this, "monthly_category_income_chart", data);
+	monthly_category_income_label->Text = _opening_month + "月のカテゴリ別収入";
+	monthly_category_income->Text = "収入：" + income.ToString("C0");
+}
+
+/// <summary>カテゴリ別年間収入のグラフを読み込みます。</summary>
+Void WalletCheck::MainForm::_load_yearly_category_income_graph()
+{
+	List<DonutData^> data;
+	long long spending = 0;
+	long long income = 0;
+	_get_yearly_spending_and_income(_opening_year, spending, income);
+	_get_yearly_category(_opening_year, data, true);
+	_load_donut_graph(this, "yearly_category_income_chart", data);
+	yearly_category_income_label->Text = _opening_year + "年のカテゴリ別収入";
+	yearly_category_income->Text = "収入：" + income.ToString("C0");
+}
+
+/// <summary>支払別予算を取得します。</summary>
+Void WalletCheck::MainForm::_get_budget_payment(List<DonutData^>% data)
+{
+	List<DonutData^> donutdata_L;
+	auto filenames = Directory::GetFiles(_opening_bookpath, "*.wc.csv");	//パス内の.wc.csvファイル一覧を取得
+	for each (String^ filename in filenames)
+	{
+		List<List<String^>^> pagedata;
+		int year, month;
+		_GetYearMonth_From_PagePath(filename,year,month);
+		_OpenBookPage(_opening_bookpath, year, month,pagedata);
+
+		
+		for each (List<String^> ^ row in pagedata)
+		{
+			long long money = _StringToInt(row[4]);
+			String^ payment = row[3];
+			int data_index = -1;
+			// data内に既に存在するカテゴリか調べ、存在していたらindexを取得する
+			for (int i = 0; i < data.Count; i++)
+			{
+				if (data[i]->text == payment)
+				{
+					data_index = i;
+					break;
+				}
+			}
+			if (data_index == -1)	//indexが初期値のまま＝新しいカテゴリ
+			{
+				DonutData^ donutdata = gcnew DonutData(money, payment);
+				data.Add(donutdata);
+			}
+			else	//指定のindexのカテゴリの金額に追加
+			{
+				data[data_index]->value += money;
+			}
+		}
+	}
+}
+
+/// <summary>予算のグラフを読み込みます。</summary>
+Void WalletCheck::MainForm::_load_budget_graph()
+{
+	List<DonutData^> donutdata;
+	_get_budget_payment(donutdata);
+	_load_donut_graph(this, "budget_chart", donutdata);
+	DataPointCollection^ dpc = budget_chart->Series[0]->Points;
+	long long budget = 0;
+	for each (DataPoint ^ dp in dpc)
+	{
+		budget += dp->YValues[0];
+	}
+	budget_value->Text = "総予算：" + budget.ToString("C0");
+}
+
+/// <summary>支払別予算を読み込みます。</summary>
+Void WalletCheck::MainForm::_load_budget_payment()
+{
+	FlowLayoutPanel^ fp = (FlowLayoutPanel^)splitContainer4->Panel2->Controls->Find("flowLayoutPanel3",true)[0];
+	DataPointCollection^ dpc = budget_chart->Series[0]->Points;
+	
+	int count = 0;
+	fp->Controls->Clear();
+	for each (DataPoint^ dp in dpc)
+	{
+		Label^ label = gcnew Label();
+		label->Name = "payment" + count;
+		label->Text = dp->LegendText + "\n" + dp->YValues[0].ToString("C0");
+		label->Font = fp->Font;
+		label->AutoSize = true;
+		label->Visible = true;
+		label->Margin = System::Windows::Forms::Padding(5);
+		fp->Controls->Add(label);
+	}
+}
+
+/// <summary>表とグラフを読み込みます。</summary>
+Void WalletCheck::MainForm::_load_grid_and_graph()
+{
+	List<List<String^>^> grid_data;
+	_OpenBookPage(_opening_bookpath, _opening_year, _opening_month, grid_data);
+	_load_grid("history_grid", grid_data);	//表を読み込む
+	_load_yearly_balance_graph();	//月間収支を読み込む
+	_load_monthly_balance_graph();	//年間収支を読み込む
+	_load_monthly_category_spending_graph();	//カテゴリ別月間収支を読み込む
+	_load_yearly_category_spending_graph();
+	_load_monthly_category_income_graph();
+	_load_yearly_category_income_graph();
+	_load_budget_graph();
+	_load_budget_payment();
+	tabs->Enabled = true;
+	add_data_button->Enabled = true;
+	delete_data_button->Enabled = true;
+}
+
+/// <summary>フォントサイズをフォームの高さによって調節します。</summary>
+Void WalletCheck::MainForm::_resize_fontsize(Object^ sender, EventArgs^ e)
+{
+	Control^ control = (Control^)sender;
+	float px = ((float)this->Height / (float)_form_height) * 12.0;
+	px = px < 12 ? 12 : px;
+
+	for each (Control ^ c in control->Controls)
+	{
+		c->Font = gcnew System::Drawing::Font(c->Font->OriginalFontName, px);
+		_resize_fontsize(c,e);	//再帰的に子コントロール以下すべてのコントロールに適用する。
+	}
+}
+
+int WalletCheck::MainForm::_check_update()
+{
+	String^ newest;
+	WebClient^ wc = gcnew WebClient();
+	try
+	{
+		newest = wc->DownloadString(UPDATE_CHECK_URL)->ToString();	//最新のバージョン情報を取得
+	}
+	catch(Exception^ e)
+	{
+		return -1;
+	}
+	String^ now = Application::ProductVersion;	//現在のバージョン
+	config::Set("LastUpdate", DateTime::Now.ToString());
+	if (now != newest)	//最新バージョンでなかったら
+	{
+		String^ msg = "新しいバージョン" + newest + "があります。\nアップデートしますか？";
+		if (MessageBox::Show(msg,"アップデート", MessageBoxButtons::YesNo).ToString() == "Yes")
+		{
+			if (_download_updater() == 0)
+			{
+				Process::Start("Update.exe");
+				Application::Exit();
+				return 0;
+			}
+			else
+			{
+				Message("アップデーターのダウンロードに失敗しました。", "");
+				return -1;
+			}
+
+		}
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+int WalletCheck::MainForm::_download_updater()
+{
+	WebClient^ wc = gcnew WebClient();
+	try
+	{
+		wc->DownloadFile(UPDATER_URL, UPDATER_ZIP);	//最新のアップデーターを取得
+	}
+	catch (Exception^ e)
+	{
+		return -1;
+	}
+
+	try
+	{
+		File::Delete(UPDATER_NAME);	//既存のアップデーターを消す
+	}
+	catch (Exception^ e){}
+	ZipFile::ExtractToDirectory(UPDATER_ZIP,"./");	//Zipを展開する
+	File::Delete(UPDATER_ZIP);
+	
+	return 0;
+}

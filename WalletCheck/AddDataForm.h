@@ -1,5 +1,6 @@
+/*----------AddDataForm.h----------*/
+
 #pragma once
-#include <list>
 
 namespace WalletCheck {
 	using namespace System;
@@ -100,9 +101,10 @@ namespace WalletCheck {
 				// 
 				this->date_label->AutoSize = true;
 				this->date_label->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->date_label->Location = System::Drawing::Point(12, 14);
+				this->date_label->Location = System::Drawing::Point(9, 11);
+				this->date_label->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->date_label->Name = L"date_label";
-				this->date_label->Size = System::Drawing::Size(49, 20);
+				this->date_label->Size = System::Drawing::Size(39, 16);
 				this->date_label->TabIndex = 14;
 				this->date_label->Text = L"日付";
 				// 
@@ -110,20 +112,22 @@ namespace WalletCheck {
 				// 
 				this->month_label->AutoSize = true;
 				this->month_label->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->month_label->Location = System::Drawing::Point(256, 14);
+				this->month_label->Location = System::Drawing::Point(192, 11);
+				this->month_label->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->month_label->Name = L"month_label";
-				this->month_label->Size = System::Drawing::Size(29, 20);
+				this->month_label->Size = System::Drawing::Size(23, 16);
 				this->month_label->TabIndex = 16;
 				this->month_label->Text = L"月";
 				// 
 				// month_num
 				// 
 				this->month_num->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->month_num->Location = System::Drawing::Point(179, 12);
+				this->month_num->Location = System::Drawing::Point(134, 10);
+				this->month_num->Margin = System::Windows::Forms::Padding(2);
 				this->month_num->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 12, 0, 0, 0 });
 				this->month_num->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 				this->month_num->Name = L"month_num";
-				this->month_num->Size = System::Drawing::Size(71, 27);
+				this->month_num->Size = System::Drawing::Size(53, 23);
 				this->month_num->TabIndex = 2;
 				this->month_num->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 				this->month_num->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
@@ -131,11 +135,12 @@ namespace WalletCheck {
 				// day_num
 				// 
 				this->day_num->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->day_num->Location = System::Drawing::Point(291, 12);
+				this->day_num->Location = System::Drawing::Point(218, 10);
+				this->day_num->Margin = System::Windows::Forms::Padding(2);
 				this->day_num->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 31, 0, 0, 0 });
 				this->day_num->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 				this->day_num->Name = L"day_num";
-				this->day_num->Size = System::Drawing::Size(71, 27);
+				this->day_num->Size = System::Drawing::Size(53, 23);
 				this->day_num->TabIndex = 3;
 				this->day_num->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 				this->day_num->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
@@ -144,9 +149,10 @@ namespace WalletCheck {
 				// 
 				this->day_label->AutoSize = true;
 				this->day_label->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->day_label->Location = System::Drawing::Point(368, 14);
+				this->day_label->Location = System::Drawing::Point(276, 11);
+				this->day_label->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->day_label->Name = L"day_label";
-				this->day_label->Size = System::Drawing::Size(29, 20);
+				this->day_label->Size = System::Drawing::Size(23, 16);
 				this->day_label->TabIndex = 17;
 				this->day_label->Text = L"日";
 				// 
@@ -154,9 +160,10 @@ namespace WalletCheck {
 				// 
 				this->label1->AutoSize = true;
 				this->label1->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->label1->Location = System::Drawing::Point(12, 50);
+				this->label1->Location = System::Drawing::Point(9, 40);
+				this->label1->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->label1->Name = L"label1";
-				this->label1->Size = System::Drawing::Size(81, 20);
+				this->label1->Size = System::Drawing::Size(64, 16);
 				this->label1->TabIndex = 18;
 				this->label1->Text = L"カテゴリー";
 				// 
@@ -164,36 +171,40 @@ namespace WalletCheck {
 				// 
 				this->category_box->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
 				this->category_box->FormattingEnabled = true;
-				this->category_box->Location = System::Drawing::Point(107, 47);
+				this->category_box->Location = System::Drawing::Point(80, 38);
+				this->category_box->Margin = System::Windows::Forms::Padding(2);
 				this->category_box->Name = L"category_box";
-				this->category_box->Size = System::Drawing::Size(178, 28);
+				this->category_box->Size = System::Drawing::Size(134, 24);
 				this->category_box->TabIndex = 4;
 				// 
 				// label2
 				// 
 				this->label2->AutoSize = true;
 				this->label2->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->label2->Location = System::Drawing::Point(12, 84);
+				this->label2->Location = System::Drawing::Point(9, 67);
+				this->label2->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->label2->Name = L"label2";
-				this->label2->Size = System::Drawing::Size(38, 20);
+				this->label2->Size = System::Drawing::Size(30, 16);
 				this->label2->TabIndex = 19;
 				this->label2->Text = L"メモ";
 				// 
 				// memo_box
 				// 
 				this->memo_box->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->memo_box->Location = System::Drawing::Point(107, 81);
+				this->memo_box->Location = System::Drawing::Point(80, 65);
+				this->memo_box->Margin = System::Windows::Forms::Padding(2);
 				this->memo_box->Name = L"memo_box";
-				this->memo_box->Size = System::Drawing::Size(290, 27);
+				this->memo_box->Size = System::Drawing::Size(218, 23);
 				this->memo_box->TabIndex = 6;
 				// 
 				// label3
 				// 
 				this->label3->AutoSize = true;
 				this->label3->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->label3->Location = System::Drawing::Point(12, 117);
+				this->label3->Location = System::Drawing::Point(9, 94);
+				this->label3->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->label3->Name = L"label3";
-				this->label3->Size = System::Drawing::Size(89, 20);
+				this->label3->Size = System::Drawing::Size(71, 16);
 				this->label3->TabIndex = 20;
 				this->label3->Text = L"決済方法";
 				// 
@@ -201,36 +212,40 @@ namespace WalletCheck {
 				// 
 				this->payment_box->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
 				this->payment_box->FormattingEnabled = true;
-				this->payment_box->Location = System::Drawing::Point(107, 114);
+				this->payment_box->Location = System::Drawing::Point(80, 91);
+				this->payment_box->Margin = System::Windows::Forms::Padding(2);
 				this->payment_box->Name = L"payment_box";
-				this->payment_box->Size = System::Drawing::Size(178, 28);
+				this->payment_box->Size = System::Drawing::Size(134, 24);
 				this->payment_box->TabIndex = 7;
 				// 
 				// money_box
 				// 
 				this->money_box->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->money_box->Location = System::Drawing::Point(232, 148);
+				this->money_box->Location = System::Drawing::Point(174, 118);
+				this->money_box->Margin = System::Windows::Forms::Padding(2);
 				this->money_box->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1874919423, 2328306, 0, 0 });
 				this->money_box->Name = L"money_box";
-				this->money_box->Size = System::Drawing::Size(160, 27);
+				this->money_box->Size = System::Drawing::Size(120, 23);
 				this->money_box->TabIndex = 11;
 				// 
 				// label4
 				// 
 				this->label4->AutoSize = true;
 				this->label4->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->label4->Location = System::Drawing::Point(12, 151);
+				this->label4->Location = System::Drawing::Point(9, 121);
+				this->label4->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->label4->Name = L"label4";
-				this->label4->Size = System::Drawing::Size(49, 20);
+				this->label4->Size = System::Drawing::Size(39, 16);
 				this->label4->TabIndex = 21;
 				this->label4->Text = L"金額";
 				// 
 				// add_button
 				// 
 				this->add_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->add_button->Location = System::Drawing::Point(322, 181);
+				this->add_button->Location = System::Drawing::Point(219, 145);
+				this->add_button->Margin = System::Windows::Forms::Padding(2);
 				this->add_button->Name = L"add_button";
-				this->add_button->Size = System::Drawing::Size(75, 41);
+				this->add_button->Size = System::Drawing::Size(79, 33);
 				this->add_button->TabIndex = 13;
 				this->add_button->Text = L"追加";
 				this->add_button->UseVisualStyleBackColor = true;
@@ -239,9 +254,10 @@ namespace WalletCheck {
 				// cancel_button
 				// 
 				this->cancel_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->cancel_button->Location = System::Drawing::Point(219, 181);
+				this->cancel_button->Location = System::Drawing::Point(134, 145);
+				this->cancel_button->Margin = System::Windows::Forms::Padding(2);
 				this->cancel_button->Name = L"cancel_button";
-				this->cancel_button->Size = System::Drawing::Size(97, 41);
+				this->cancel_button->Size = System::Drawing::Size(81, 33);
 				this->cancel_button->TabIndex = 12;
 				this->cancel_button->Text = L"キャンセル";
 				this->cancel_button->UseVisualStyleBackColor = true;
@@ -250,11 +266,12 @@ namespace WalletCheck {
 				// year_num
 				// 
 				this->year_num->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->year_num->Location = System::Drawing::Point(67, 12);
+				this->year_num->Location = System::Drawing::Point(50, 10);
+				this->year_num->Margin = System::Windows::Forms::Padding(2);
 				this->year_num->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 9999, 0, 0, 0 });
 				this->year_num->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1900, 0, 0, 0 });
 				this->year_num->Name = L"year_num";
-				this->year_num->Size = System::Drawing::Size(71, 27);
+				this->year_num->Size = System::Drawing::Size(53, 23);
 				this->year_num->TabIndex = 1;
 				this->year_num->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 				this->year_num->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1900, 0, 0, 0 });
@@ -263,9 +280,10 @@ namespace WalletCheck {
 				// 
 				this->label5->AutoSize = true;
 				this->label5->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->label5->Location = System::Drawing::Point(144, 14);
+				this->label5->Location = System::Drawing::Point(108, 11);
+				this->label5->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->label5->Name = L"label5";
-				this->label5->Size = System::Drawing::Size(29, 20);
+				this->label5->Size = System::Drawing::Size(23, 16);
 				this->label5->TabIndex = 15;
 				this->label5->Text = L"年";
 				// 
@@ -274,9 +292,10 @@ namespace WalletCheck {
 				this->spending_radiobutton->AutoSize = true;
 				this->spending_radiobutton->Checked = true;
 				this->spending_radiobutton->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->spending_radiobutton->Location = System::Drawing::Point(80, 149);
+				this->spending_radiobutton->Location = System::Drawing::Point(60, 119);
+				this->spending_radiobutton->Margin = System::Windows::Forms::Padding(2);
 				this->spending_radiobutton->Name = L"spending_radiobutton";
-				this->spending_radiobutton->Size = System::Drawing::Size(70, 24);
+				this->spending_radiobutton->Size = System::Drawing::Size(57, 20);
 				this->spending_radiobutton->TabIndex = 9;
 				this->spending_radiobutton->TabStop = true;
 				this->spending_radiobutton->Text = L"支出";
@@ -286,9 +305,10 @@ namespace WalletCheck {
 				// 
 				this->income_radiobutton->AutoSize = true;
 				this->income_radiobutton->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->income_radiobutton->Location = System::Drawing::Point(156, 149);
+				this->income_radiobutton->Location = System::Drawing::Point(117, 119);
+				this->income_radiobutton->Margin = System::Windows::Forms::Padding(2);
 				this->income_radiobutton->Name = L"income_radiobutton";
-				this->income_radiobutton->Size = System::Drawing::Size(70, 24);
+				this->income_radiobutton->Size = System::Drawing::Size(57, 20);
 				this->income_radiobutton->TabIndex = 10;
 				this->income_radiobutton->Text = L"収入";
 				this->income_radiobutton->UseVisualStyleBackColor = true;
@@ -296,9 +316,10 @@ namespace WalletCheck {
 				// category_manage_button
 				// 
 				this->category_manage_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->category_manage_button->Location = System::Drawing::Point(291, 47);
+				this->category_manage_button->Location = System::Drawing::Point(218, 38);
+				this->category_manage_button->Margin = System::Windows::Forms::Padding(2);
 				this->category_manage_button->Name = L"category_manage_button";
-				this->category_manage_button->Size = System::Drawing::Size(104, 28);
+				this->category_manage_button->Size = System::Drawing::Size(78, 25);
 				this->category_manage_button->TabIndex = 5;
 				this->category_manage_button->Text = L"管理";
 				this->category_manage_button->UseVisualStyleBackColor = true;
@@ -307,9 +328,10 @@ namespace WalletCheck {
 				// payment_manage_button
 				// 
 				this->payment_manage_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->payment_manage_button->Location = System::Drawing::Point(291, 113);
+				this->payment_manage_button->Location = System::Drawing::Point(218, 90);
+				this->payment_manage_button->Margin = System::Windows::Forms::Padding(2);
 				this->payment_manage_button->Name = L"payment_manage_button";
-				this->payment_manage_button->Size = System::Drawing::Size(104, 28);
+				this->payment_manage_button->Size = System::Drawing::Size(78, 25);
 				this->payment_manage_button->TabIndex = 8;
 				this->payment_manage_button->Text = L"管理";
 				this->payment_manage_button->UseVisualStyleBackColor = true;
@@ -317,9 +339,9 @@ namespace WalletCheck {
 				// 
 				// AddDataForm
 				// 
-				this->AutoScaleDimensions = System::Drawing::SizeF(8, 15);
-				this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-				this->ClientSize = System::Drawing::Size(407, 233);
+				this->AutoScaleDimensions = System::Drawing::SizeF(96, 96);
+				this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Dpi;
+				this->ClientSize = System::Drawing::Size(305, 186);
 				this->Controls->Add(this->payment_manage_button);
 				this->Controls->Add(this->category_manage_button);
 				this->Controls->Add(this->income_radiobutton);
@@ -342,6 +364,7 @@ namespace WalletCheck {
 				this->Controls->Add(this->month_label);
 				this->Controls->Add(this->date_label);
 				this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
+				this->Margin = System::Windows::Forms::Padding(2);
 				this->Name = L"AddDataForm";
 				this->ShowIcon = false;
 				this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;

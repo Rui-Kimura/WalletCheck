@@ -1,3 +1,8 @@
+/*
+	AddDataForm_Process.cpp
+	AddDataFormの定義した処理です。
+*/
+
 #include "AddDataForm.h"
 #include "ManageItemsForm.h"
 #include "app_config.h"
@@ -51,23 +56,23 @@ Void WalletCheck::AddDataForm::_manage_items_button_click(Object^ sender,String^
 	{
 		_reload_combobox(sender,comboboxname, keyname);	//comboboxを更新
 	}
-	
 }
 
 Void WalletCheck::AddDataForm::_reload_combobox(Object^ sender,String^ combobox_controlname, String^ keyname)
 {
 	ComboBox^ combobox;	//comboboxのコントロールを入れておく変数
-	String^ sendertype = (sender->GetType()->BaseType->ToString());	//senderのtypeを取得
-	if (sendertype == "System.Windows.Forms.Form")	//senderがFormのとき
-	{
-		Form^ sender_form = (Form^)sender;	//senderのObjectをFormにキャスト
-		combobox = (ComboBox^)sender_form->Controls->Find(combobox_controlname, false)[0];	//指定の名前のcomboboxを見つける
-	}
-	else	//その他（他はControlで呼び出すはず）
+	Type^ sendertype = sender->GetType();	//senderのtypeを取得
+	if (sendertype == Control::typeid)	//senderがControlのとき
 	{
 		Control^ sender_control = (Control^)sender;	//senderのObjectをControlにキャスト
 		combobox = (ComboBox^)sender_control->Parent->Controls->Find(combobox_controlname, false)[0];	//指定の名前のcomboboxを見つける
 	}
+	else	//その他（他はControlで呼び出すはず）
+	{
+		Form^ sender_form = (Form^)sender;	//senderのObjectをFormにキャスト
+		combobox = (ComboBox^)sender_form->Controls->Find(combobox_controlname, false)[0];	//指定の名前のcomboboxを見つける
+	}
+
 
 	combobox->Items->Clear();	//combobox内のアイテムを全削除
 	String^ csv_items_s = config::Get(keyname);	//configからアイテム一覧のStringを取得

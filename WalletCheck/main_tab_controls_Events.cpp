@@ -1,3 +1,8 @@
+/*
+	main_tab_controls_Events.cpp
+	MainFormのmain_tabのイベントです。
+*/
+
 #include "MainForm.h"
 #include"CreateNewForm.h"
 #include "AddDataForm.h"
@@ -31,42 +36,28 @@ System::Void WalletCheck::MainForm::add_data_button_Click(System::Object^ sender
 
 		List<List<String^>^> grid_data;
 		_OpenBookPage(_opening_bookpath, _opening_year, _opening_month, grid_data);
-		_load_grid(this,"history_grid", grid_data);
 		history_grid->Rows->Add(AddDataForm::GetAddData());	//追加フォームから追加データを取得して表に追加
-		_SaveBook(_opening_bookpath, _opening_year, _opening_month);
+		_SaveBookPage(_opening_bookpath, _opening_year, _opening_month);
+		tabs->SelectedIndex = 0;
+		_load_grid_and_graph();
 	}
 }
 
-/*----------TooLStripMenuのイベントハンドラ----------*/
-
-//新規作成ボタンが押された時のイベント
-Void MainForm::CreateNewToolStripMenuItem_Click(Object^ sender, EventArgs^ e)
+Void WalletCheck::MainForm::delete_data_button_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	_CreateBook();
-}
-
-//開くボタンが押された時のイベント
-Void MainForm::OpenToolStripMenuItem_Click(Object^ sender, EventArgs^ e)
-{
-	if (folderBrowserDialog1->ShowDialog().ToString() == "OK")	//フォルダ選択ダイアログを表示して結果がOKか確かめる
+	DataGridViewSelectedRowCollection^ rows = history_grid->SelectedRows;	//選択されている行をすべて取得
+	if (rows->Count == 0)	//選択されていなかったら
 	{
-		_opening_bookpath = folderBrowserDialog1->SelectedPath;
-		_OpenBook(_opening_bookpath);
+		Message("削除するデータの行を選択してください。\nCtrl + クリックで複数行選択できます。", "ヘルプ");
+		return;
 	}
-}
 
-//最近のBookが押されたときのイベント
-Void WalletCheck::MainForm::RecenttoolStripMenuItem_Click(Object^ sender, EventArgs^ e)
-{
-	ToolStripMenuItem^ RecentToolStripMenuItem = (ToolStripMenuItem^)sender;	//Object型senderをToolStripMenuItem型にキャスト
-	String^ bookpath_s = RecentToolStripMenuItem->Text;	//MenuItemに表示されているテキスト＝パス
-	_OpenBook(bookpath_s);
-}
-
-//終了ボタンが押された時のイベント
-Void MainForm::ExitToolStripMenuItem_Click(Object^ sender, EventArgs^ e)
-{
-	this->Close();
+	for each (DataGridViewRow ^ row in rows)
+	{
+		history_grid->Rows->RemoveAt(row->Index);	//選択されている行を削除
+		_SaveBookPage(_opening_bookpath, _opening_year, _opening_month);	//保存
+	}
+	_load_grid_and_graph();
 }
 
 /*----------その他のイベント----------*/

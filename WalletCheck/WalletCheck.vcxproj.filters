@@ -34,6 +34,12 @@
     <Filter Include="ソース ファイル\ヘッダー ファイル\original">
       <UniqueIdentifier>{97856bf8-7979-49c9-8657-48d0a170cfd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\SettingForm">
+      <UniqueIdentifier>{34387760-ca86-4fd5-8d96-358c721947d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ApplicationInfoForm">
+      <UniqueIdentifier>{cc4352e8-8677-4c67-a269-49d4056dab59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -59,6 +65,15 @@
     </ClInclude>
     <ClInclude Include="graph.h">
       <Filter>ソース ファイル\ヘッダー ファイル\original</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationInfoForm.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingForm.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,11 +113,27 @@
     <ClCompile Include="main_tab_controls_Events.cpp">
       <Filter>ソース ファイル\MainForm\Events</Filter>
     </ClCompile>
-    <ClCompile Include="balance_tab_controls_Events.cpp">
-      <Filter>ソース ファイル\MainForm\Events</Filter>
+    <ClCompile Include="ApplicationInfoForm.cpp">
+      <Filter>ソース ファイル\ApplicationInfoForm</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingForm_Events.cpp">
+      <Filter>ソース ファイル\SettingForm</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingForm_Process.cpp">
+      <Filter>ソース ファイル\SettingForm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WalletCheck.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="WalletCheck.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
 </Project>

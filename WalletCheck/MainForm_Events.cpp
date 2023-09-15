@@ -1,4 +1,14 @@
+/*
+	MainForm_Events.cpp
+	MainFormのイベントです。
+*/
+
+#define TRUE "True"
+#define FALSE "False"
+
 #include "MainForm.h"
+#include "ApplicationInfoForm.h"
+#include "SettingForm.h"
 #include "app_config.h"
 #include "string_convertr.h"
 #include <filesystem>
@@ -14,21 +24,37 @@ using namespace System::Windows::Forms;
 using namespace System::Configuration;
 using namespace System::Collections::Generic;
 
-// MainFormがロード刺された時のイベント
+// MainFormがロードされた時のイベント
 Void WalletCheck::MainForm::MainForm_Load(Object^ sender, EventArgs^ e)
 {
-	_opening_bookpath = config::Get("RecentBook0");	// 最後に読み込まれたファイルのパスを設定から取得する
-	if (config::Get("OpenLastFile") == "true" && _opening_bookpath != "")	//もし最後に使ったファイルの読み込みが有効で、パスがあったら
+	_form_height = this->Height;
+	_resize_fontsize(this->Controls->Find("tabs",true)[0], e);	//タブのフォントサイズを調整
+	String^ recent_bookpath = config::Get("RecentBook0");	// 最後に読み込まれたファイルのパスを設定から取得する
+	if (config::Get("OpenLastFile") == TRUE && recent_bookpath != "")	//もし最後に使ったファイルの読み込みが有効で、パスがあったら
 	{
 		_opening_year = _GetYear();	// 開いている年に今の年をセット
 		_opening_month = _GetMonth();	// 開いている月に今の月をセット
-		char bookpath[CHAR_STR_BUF];//bookのパスを入れておくchar配列
-		string_convert::SystemString_to_CString(_opening_bookpath, bookpath);
-		List<List<String^>^> grid_data;
-		_OpenBookPage(_opening_bookpath, _opening_year, _opening_month,grid_data);
-		_load_grid(this,"history_grid", grid_data);
+		_OpenBook(recent_bookpath);
+		_load_grid_and_graph();
 	}
 	_show_recentbook_toolstripmenu();
+
+	if (config::Get("CheckUpdate") == TRUE)
+	{
+		String^ lastupdate = config::Get("LastUpdate");	//最終アップデートチェック時間をconfigから取得
+		if (lastupdate == "")
+		{
+			lastupdate = DateTime::Now.ToString();
+			config::Set("LastUpdate", lastupdate);
+		}
+		DateTime lastupdatedate = DateTime::Parse(lastupdate);
+		DateTime nowdate = DateTime::Now;
+		int not_updated = (nowdate - lastupdatedate).TotalDays;
+		if (not_updated > 10)	//10日以上アップデートチェックしていなかったら
+		{
+			_check_update();
+		}
+	}
 
 }
 
@@ -54,18 +80,42 @@ System::Void WalletCheck::MainForm::tabs_DrawItem(System::Object^ sender, System
 	sformat->Alignment = StringAlignment::Center;	//左右中央揃え
 	sformat->LineAlignment = StringAlignment::Center;	//上下中央揃え
 
+	// テキストのサイズに合わせてタブのサイズを変更
+	SizeF^ sizef = e->Graphics->MeasureString(tab_str,e->Font);
+	if (tabs->ItemSize.Height < sizef->Height)
+		tabs->ItemSize.Height = sizef->Height;
+	
+	if (tabs->ItemSize.Width < sizef->Width) + 5;
+		tabs->ItemSize.Width = sizef->Width + 5;
+
+	/// TODO:スケールが200%の場合テキストがはみ出る問題を修正する
+
 	e->Graphics->FillRectangle(background_brush, e->Bounds);	//背景を塗りつぶす
 	e->Graphics->DrawString(tab_str, e->Font, text_brush, e->Bounds, sformat);	//テキストを描画
 
 }
 
-Void WalletCheck::MainForm::tabs_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e)
+//タブコントロールがリサイズされたときのイベント
+System::Void WalletCheck::MainForm::tabs_Resize(System::Object^ sender, System::EventArgs^ e)
 {
-	TabControl^ tab = (TabControl^)sender;
-	if (tab->SelectedIndex == 1 && _opening_bookpath != "")
+	TabControl^ tabcontrol = (TabControl^)sender;
+	for each (Control ^ c in tabcontrol->Controls)
 	{
-		_load_monthly_balance_graph();
+		for each (Control ^ cc in c->Controls)
+		{
+			if (cc->GetType()->Equals(SplitContainer::typeid))
+			{
+				SplitContainer^ sc = (SplitContainer^)cc;
+				sc->SplitterDistance = sc->Width / 2;
+			}
+		}
 	}
+}
+
+// タブのEnableが変更された時のイベント
+Void WalletCheck::MainForm::tabs_VisibleChanged(Object^ sender, EventArgs^ e)
+{
+	_set_parent(sender);
 }
 
 /*----------ボタンのイベントハンドラ----------*/
@@ -83,9 +133,7 @@ System::Void WalletCheck::MainForm::previous_button_Click(System::Object^ sender
 	{
 		_opening_month--;	//1月戻る
 	}
-	List<List<String^>^> grid_data;
-	_OpenBookPage(_opening_bookpath, _opening_year, _opening_month,grid_data);
-	_load_grid(this,"history_grid", grid_data);
+	_load_grid_and_graph();
 }
 
 // Next（次へ）ボタンのイベント
@@ -100,7 +148,58 @@ System::Void WalletCheck::MainForm::next_button_Click(System::Object^ sender, Sy
 	{
 		_opening_month++;		//1月進む
 	}
-	List<List<String^>^> grid_data;
-	_OpenBookPage(_opening_bookpath, _opening_year, _opening_month, grid_data);
-	_load_grid(this,"history_grid", grid_data);
+	_load_grid_and_graph();
 }
+
+/*----------TooLStripMenuのイベントハンドラ----------*/
+
+//新規作成ボタンが押された時のイベント
+Void WalletCheck::MainForm::CreateNewToolStripMenuItem_Click(Object^ sender, EventArgs^ e)
+{
+	_CreateBook();
+}
+
+//開くボタンが押された時のイベント
+Void WalletCheck::MainForm::OpenToolStripMenuItem_Click(Object^ sender, EventArgs^ e)
+{
+	if (folderBrowserDialog1->ShowDialog().ToString() == "OK")	//フォルダ選択ダイアログを表示して結果がOKか確かめる
+	{
+		_opening_bookpath = folderBrowserDialog1->SelectedPath;
+		_OpenBook(_opening_bookpath);
+		_load_grid_and_graph();
+		tabs->Enabled = true;
+		tabs->SelectedIndex = 0;
+	}
+}
+
+//最近のBookが押されたときのイベント
+Void WalletCheck::MainForm::RecenttoolStripMenuItem_Click(Object^ sender, EventArgs^ e)
+{
+	ToolStripMenuItem^ RecentToolStripMenuItem = (ToolStripMenuItem^)sender;	//Object型senderをToolStripMenuItem型にキャスト
+	String^ bookpath_s = RecentToolStripMenuItem->Text;	//MenuItemに表示されているテキスト＝パス
+	_OpenBook(bookpath_s);
+	_load_grid_and_graph();
+	tabs->Enabled = true;
+	tabs->SelectedIndex = 0;
+}
+
+//終了ボタンが押された時のイベント
+Void WalletCheck::MainForm::ExitToolStripMenuItem_Click(Object^ sender, EventArgs^ e)
+{
+	this->Close();
+}
+
+//設定が押された時のイベント
+System::Void WalletCheck::MainForm::SettingToolStripMenuItem_Click(Object^ sender, EventArgs^ e)
+{
+	Form^ settingform = gcnew SettingForm();
+	settingform->ShowDialog();
+}
+
+//アプリケーション情報が押された時のイベント
+Void WalletCheck::MainForm::ApplicationInfoToolStripMenuItem_Click(Object^ sender, EventArgs^ e)
+{
+	Form^ infoform = gcnew ApplicationInfoForm();
+	infoform->ShowDialog();
+}
+

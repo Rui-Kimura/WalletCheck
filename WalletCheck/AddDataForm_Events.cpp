@@ -1,3 +1,8 @@
+/*
+	AddDataForm_Events.cpp
+	AddDataFormのイベントです。
+*/
+
 #include "AddDataForm.h"
 #include "MainForm.h"
 #include "csv.h"
@@ -17,11 +22,13 @@ System::Void WalletCheck::AddDataForm::AddDataForm_Load(System::Object^ sender, 
 
 }
 
+/// <summary>カテゴリ管理ボタンのイベント</summary>
 Void WalletCheck::AddDataForm::category_manage_button_Click(System::Object^ sender, System::EventArgs^ e)
 {
 	_manage_items_button_click(sender,"category_box", "カテゴリー", "Categories");	//カテゴリーの編集Form
 }
 
+/// <summary>決済方法管理ボタンのイベント</summary>
 Void WalletCheck::AddDataForm::payment_manage_button_Click(System::Object^ sender, System::EventArgs^ e)
 {
 	_manage_items_button_click(sender,"payment_box", "決済方法", "PaymentMethods");	//支払方法の編集Form

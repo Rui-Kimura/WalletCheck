@@ -1,3 +1,8 @@
+/*
+	CreateNewForm_Events.cpp
+	CreateNewFormのイベントです。
+*/
+
 #include "MainForm.h"
 #include "CreateNewForm.h"
 #include "app_config.h"

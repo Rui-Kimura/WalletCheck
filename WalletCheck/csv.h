@@ -1,7 +1,15 @@
+/*
+	csv.h
+	csvデータ操作クラスです。
+*/
+
 #pragma once
 
 namespace csv
 {
+	/// <summary>
+	/// csvデータを操作します。
+	/// </summary>
 	public ref class csv_manager
 	{
 		public:

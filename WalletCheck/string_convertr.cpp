@@ -1,3 +1,8 @@
+/*
+	string_converter.cpp
+	string_converter.h‚Ìˆ—‚Å‚·B
+*/
+
 #include "string_convertr.h"
 #include <string.h>
 

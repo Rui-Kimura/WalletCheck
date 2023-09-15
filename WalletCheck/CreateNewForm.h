@@ -1,3 +1,4 @@
+/*----------CreateNewForm.h----------*/
 #pragma once
 
 namespace WalletCheck {
@@ -41,8 +42,6 @@ namespace WalletCheck {
 			System::Windows::Forms::TextBox^ bookname_textbox;
 			System::Windows::Forms::Button^ browse_button;
 			System::Windows::Forms::FolderBrowserDialog^ folderBrowserDialog1;
-
-
 			System::Windows::Forms::Label^ label1;
 			System::Windows::Forms::Button^ create_button;
 			System::Windows::Forms::Button^ cancel_button;
@@ -70,27 +69,30 @@ namespace WalletCheck {
 				// 
 				this->savefolder_label->AutoSize = true;
 				this->savefolder_label->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->savefolder_label->Location = System::Drawing::Point(9, 7);
+				this->savefolder_label->Location = System::Drawing::Point(7, 6);
+				this->savefolder_label->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->savefolder_label->Name = L"savefolder_label";
-				this->savefolder_label->Size = System::Drawing::Size(126, 20);
+				this->savefolder_label->Size = System::Drawing::Size(102, 16);
 				this->savefolder_label->TabIndex = 0;
 				this->savefolder_label->Text = L"保存先フォルダ";
 				// 
 				// path_textbox
 				// 
 				this->path_textbox->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->path_textbox->Location = System::Drawing::Point(12, 30);
+				this->path_textbox->Location = System::Drawing::Point(9, 24);
+				this->path_textbox->Margin = System::Windows::Forms::Padding(2);
 				this->path_textbox->Name = L"path_textbox";
 				this->path_textbox->ReadOnly = true;
-				this->path_textbox->Size = System::Drawing::Size(371, 27);
+				this->path_textbox->Size = System::Drawing::Size(279, 23);
 				this->path_textbox->TabIndex = 1;
 				// 
 				// browse_button
 				// 
 				this->browse_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->browse_button->Location = System::Drawing::Point(389, 30);
+				this->browse_button->Location = System::Drawing::Point(292, 24);
+				this->browse_button->Margin = System::Windows::Forms::Padding(2);
 				this->browse_button->Name = L"browse_button";
-				this->browse_button->Size = System::Drawing::Size(81, 27);
+				this->browse_button->Size = System::Drawing::Size(61, 22);
 				this->browse_button->TabIndex = 2;
 				this->browse_button->Text = L"参照";
 				this->browse_button->UseVisualStyleBackColor = true;
@@ -100,18 +102,20 @@ namespace WalletCheck {
 				// 
 				this->label1->AutoSize = true;
 				this->label1->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->label1->Location = System::Drawing::Point(12, 75);
+				this->label1->Location = System::Drawing::Point(9, 60);
+				this->label1->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 				this->label1->Name = L"label1";
-				this->label1->Size = System::Drawing::Size(69, 20);
+				this->label1->Size = System::Drawing::Size(55, 16);
 				this->label1->TabIndex = 4;
 				this->label1->Text = L"帳簿名";
 				// 
 				// create_button
 				// 
 				this->create_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->create_button->Location = System::Drawing::Point(395, 134);
+				this->create_button->Location = System::Drawing::Point(296, 107);
+				this->create_button->Margin = System::Windows::Forms::Padding(2);
 				this->create_button->Name = L"create_button";
-				this->create_button->Size = System::Drawing::Size(75, 33);
+				this->create_button->Size = System::Drawing::Size(56, 26);
 				this->create_button->TabIndex = 5;
 				this->create_button->Text = L"作成";
 				this->create_button->UseVisualStyleBackColor = true;
@@ -121,9 +125,10 @@ namespace WalletCheck {
 				// 
 				this->cancel_button->DialogResult = System::Windows::Forms::DialogResult::Cancel;
 				this->cancel_button->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->cancel_button->Location = System::Drawing::Point(296, 134);
+				this->cancel_button->Location = System::Drawing::Point(211, 107);
+				this->cancel_button->Margin = System::Windows::Forms::Padding(2);
 				this->cancel_button->Name = L"cancel_button";
-				this->cancel_button->Size = System::Drawing::Size(93, 33);
+				this->cancel_button->Size = System::Drawing::Size(81, 26);
 				this->cancel_button->TabIndex = 6;
 				this->cancel_button->Text = L"キャンセル";
 				this->cancel_button->UseVisualStyleBackColor = true;
@@ -132,19 +137,20 @@ namespace WalletCheck {
 				// bookname_textbox
 				// 
 				this->bookname_textbox->Font = (gcnew System::Drawing::Font(L"MS UI Gothic", 12));
-				this->bookname_textbox->Location = System::Drawing::Point(12, 98);
+				this->bookname_textbox->Location = System::Drawing::Point(9, 78);
+				this->bookname_textbox->Margin = System::Windows::Forms::Padding(2);
 				this->bookname_textbox->Name = L"bookname_textbox";
-				this->bookname_textbox->Size = System::Drawing::Size(458, 27);
+				this->bookname_textbox->Size = System::Drawing::Size(344, 23);
 				this->bookname_textbox->TabIndex = 3;
 				this->bookname_textbox->TextChanged += gcnew System::EventHandler(this, &CreateNewForm::bookname_textbox_TextChanged);
 				// 
 				// CreateNewForm
 				// 
 				this->AcceptButton = this->create_button;
-				this->AutoScaleDimensions = System::Drawing::SizeF(8, 15);
-				this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+				this->AutoScaleDimensions = System::Drawing::SizeF(96, 96);
+				this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Dpi;
 				this->CancelButton = this->cancel_button;
-				this->ClientSize = System::Drawing::Size(482, 178);
+				this->ClientSize = System::Drawing::Size(362, 142);
 				this->Controls->Add(this->cancel_button);
 				this->Controls->Add(this->create_button);
 				this->Controls->Add(this->label1);
@@ -153,6 +159,7 @@ namespace WalletCheck {
 				this->Controls->Add(this->path_textbox);
 				this->Controls->Add(this->savefolder_label);
 				this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
+				this->Margin = System::Windows::Forms::Padding(2);
 				this->Name = L"CreateNewForm";
 				this->ShowIcon = false;
 				this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
@@ -164,12 +171,12 @@ namespace WalletCheck {
 			}
 #pragma endregion
 #pragma region ユーザー定義
-			public:
-				/// <summary>
-				/// 新規作成したBookのパスを取得します。
-				/// </summary>
-				/// <returns>：新規作成したBookのパス</returns>
-				static String^ GetBookPath();
+		public:
+			/// <summary>
+			/// 新規作成したBookのパスを取得します。
+			/// </summary>
+			/// <returns>：新規作成したBookのパス</returns>
+			static String^ GetBookPath();
 
 		private:
 			static String^ _bookname;

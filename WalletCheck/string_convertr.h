@@ -1,3 +1,8 @@
+/*
+	string_converter.h
+	C++<-->C++/CLI間の文字列変換を行うクラスです。
+*/
+
 #pragma once
 
 #include <string>
@@ -5,6 +10,9 @@
 
 namespace string_converter
 {
+	/// <summary>
+	/// C++<-->C++/CLI間の文字列変換を行います。
+	/// </summary>
 	public ref class string_convert
 	{
 		public:

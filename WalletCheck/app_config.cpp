@@ -1,3 +1,8 @@
+/*
+	app_config.cpp
+	app_config.h‚Ìˆ—‚Å‚·B
+*/
+
 #include "app_config.h"
 
 
