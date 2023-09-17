@@ -740,6 +740,10 @@ int WalletCheck::MainForm::_check_update()
 			}
 
 		}
+		else
+		{
+			return 1;
+		}
 	}
 	else
 	{

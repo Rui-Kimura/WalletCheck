@@ -15,10 +15,14 @@ System::Void WalletCheck::SettingForm::SettingForm_Load(System::Object^ sender, 
 /// <summary>アップデート手動確認ボタンが押された時のイベントです。</summary>
 System::Void WalletCheck::SettingForm::update_button_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	
-	if(MainForm::check_update() == 0)	//アップデートを確認
+	int update = MainForm::check_update();//アップデートを確認
+	if(update == 0)	
 	{
 		MessageBox::Show("最新版です。");
+	}
+	else if (update == -1)
+	{
+		MessageBox::Show("更新はキャンセルされました。");
 	}
 	else
 	{

@@ -35,24 +35,31 @@ Void WalletCheck::MainForm::MainForm_Load(Object^ sender, EventArgs^ e)
 		_OpenBook(recent_bookpath);
 		_load_grid_and_graph();
 	}
+
 	_show_recentbook_toolstripmenu();
 
 	if (config::Get("CheckUpdate") == TRUE)
 	{
 		String^ lastupdate = config::Get("LastUpdate");	//最終アップデートチェック時間をconfigから取得
-		if (lastupdate == "")
-		{
-			lastupdate = DateTime::Now.ToString();
-			config::Set("LastUpdate", lastupdate);
-		}
-		DateTime lastupdatedate = DateTime::Parse(lastupdate);
-		DateTime nowdate = DateTime::Now;
-		int not_updated = (nowdate - lastupdatedate).TotalDays;
-		if (not_updated > 10)	//10日以上アップデートチェックしていなかったら
+		if (lastupdate == "")	//アップデート履歴が無い場合
 		{
 			_check_update();
 		}
+
+		DateTime lastupdatedate;
+
+		if (DateTime::TryParse(lastupdate,lastupdatedate))
+		{
+			DateTime nowdate = DateTime::Now;
+			int not_updated = (nowdate - lastupdatedate).TotalDays;
+			if (not_updated > 10)	//10日以上アップデートチェックしていなかったら
+			{
+				_check_update();
+			}
+		}
 	}
+
+	//スケールを直すために追加した
 	this->Height++;
 	this->Height--;
 }
