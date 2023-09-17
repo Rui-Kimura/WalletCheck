@@ -31,13 +31,13 @@ System::Void WalletCheck::MainForm::add_data_button_Click(System::Object^ sender
 	Form^ AddDataDialog = gcnew AddDataForm();	//データ追加Formをgcnewする
 	if (AddDataDialog->ShowDialog(this).ToString() == "OK")	//Formを表示して結果がOKなら
 	{
-		_opening_year = AddDataForm::GetAddDate('y');	//データ追加Formから年を取得
-		_opening_month = AddDataForm::GetAddDate('m');	//データ追加Formから月を取得
-
-		List<List<String^>^> grid_data;
-		_OpenBookPage(_opening_bookpath, _opening_year, _opening_month, grid_data);
+		int add_year = AddDataForm::GetAddDate('y');	//データ追加Formから年を取得
+		int add_month = AddDataForm::GetAddDate('m');	//データ追加Formから月を取得
+		
+		_SetOpening(_opening_bookpath, add_year, add_month);
+		_load_grid_and_graph();
 		history_grid->Rows->Add(AddDataForm::GetAddData());	//追加フォームから追加データを取得して表に追加
-		_SaveBookPage(_opening_bookpath, _opening_year, _opening_month);
+		_SaveBookPage(_opening_bookpath, add_year, add_month);
 		tabs->SelectedIndex = 0;
 		_load_grid_and_graph();
 	}

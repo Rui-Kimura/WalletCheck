@@ -32,8 +32,6 @@ Void WalletCheck::MainForm::MainForm_Load(Object^ sender, EventArgs^ e)
 	String^ recent_bookpath = config::Get("RecentBook0");	// 最後に読み込まれたファイルのパスを設定から取得する
 	if (config::Get("OpenLastFile") == TRUE && recent_bookpath != "")	//もし最後に使ったファイルの読み込みが有効で、パスがあったら
 	{
-		_opening_year = _GetYear();	// 開いている年に今の年をセット
-		_opening_month = _GetMonth();	// 開いている月に今の月をセット
 		_OpenBook(recent_bookpath);
 		_load_grid_and_graph();
 	}
@@ -55,7 +53,8 @@ Void WalletCheck::MainForm::MainForm_Load(Object^ sender, EventArgs^ e)
 			_check_update();
 		}
 	}
-
+	this->Height++;
+	this->Height--;
 }
 
 // タブに描画更新が起きたときのイベント
@@ -123,7 +122,6 @@ Void WalletCheck::MainForm::tabs_VisibleChanged(Object^ sender, EventArgs^ e)
 // Previous（戻る）ボタンのイベント
 System::Void WalletCheck::MainForm::previous_button_Click(System::Object^ sender, System::EventArgs^ e)
 {
-
 	if (_opening_month == 1)	//今1月を開いていたら
 	{
 		_opening_year--;		//1年前の
@@ -164,8 +162,8 @@ Void WalletCheck::MainForm::OpenToolStripMenuItem_Click(Object^ sender, EventArg
 {
 	if (folderBrowserDialog1->ShowDialog().ToString() == "OK")	//フォルダ選択ダイアログを表示して結果がOKか確かめる
 	{
-		_opening_bookpath = folderBrowserDialog1->SelectedPath;
-		_OpenBook(_opening_bookpath);
+		String^ selectedpath = folderBrowserDialog1->SelectedPath;
+		_OpenBook(selectedpath);	//ダイアログで選択したパスを開く
 		_load_grid_and_graph();
 		tabs->Enabled = true;
 		tabs->SelectedIndex = 0;

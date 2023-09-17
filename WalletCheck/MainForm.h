@@ -23,114 +23,114 @@ namespace WalletCheck
 	public ref  class MainForm : public System::Windows::Forms::Form
 	{
 
-		public:
-			MainForm(void)
-			{
-				InitializeComponent();
-			}
+	public:
+		MainForm(void)
+		{
+			InitializeComponent();
+		}
 
-		protected:
-			~MainForm()
+	protected:
+		~MainForm()
+		{
+			if (components)
 			{
-				if (components)
-				{
-					delete components;
-				}
+				delete components;
 			}
+		}
 #pragma region フォームコントロールの生成
 
 		/// MEMO:Systemなどusingしても消すとデザイナーエラーになるのでusingしないで残す
-		private:
-			System::Windows::Forms::MenuStrip^ menuStrip1;
+	private:
+		System::Windows::Forms::MenuStrip^ menuStrip1;
 
-			System::Windows::Forms::ToolStripMenuItem^ fileToolStripMenuItem;
-			System::Windows::Forms::ToolStripMenuItem^ CreateNewToolStripMenuItem;
-			System::Windows::Forms::ToolStripMenuItem^ OpenToolStripMenuItem;
-			System::Windows::Forms::Label^ month_label;
-			System::Windows::Forms::Label^ bookname_label;
-			System::Windows::Forms::Button^ next_button;
-			System::Windows::Forms::Button^ previous_button;
+		System::Windows::Forms::ToolStripMenuItem^ fileToolStripMenuItem;
+		System::Windows::Forms::ToolStripMenuItem^ CreateNewToolStripMenuItem;
+		System::Windows::Forms::ToolStripMenuItem^ OpenToolStripMenuItem;
+		System::Windows::Forms::Label^ month_label;
+		System::Windows::Forms::Label^ bookname_label;
+		System::Windows::Forms::Button^ next_button;
+		System::Windows::Forms::Button^ previous_button;
 
-			System::Windows::Forms::ToolStripSeparator^ toolStripMenuItem1;
-			System::Windows::Forms::ToolStripMenuItem^ ExitToolStripMenuItem;
-			System::Windows::Forms::FolderBrowserDialog^ folderBrowserDialog1;
-			System::Windows::Forms::ToolStripSeparator^ toolStripMenuItem2;
-			System::Windows::Forms::ToolStripMenuItem^ RecentBookToolStripMenuItem;
-			System::Windows::Forms::ToolStripMenuItem^ Recent1toolStripMenuItem;
-			System::Windows::Forms::ToolStripMenuItem^ Recent2toolStripMenuItem5;
-			System::Windows::Forms::ToolStripMenuItem^ Recent3toolStripMenuItem6;
-			System::Windows::Forms::ToolStripMenuItem^ Recent4toolStripMenuItem7;
-			System::Windows::Forms::ToolStripMenuItem^ Recent5toolStripMenuItem8;
-			System::Windows::Forms::TabPage^ spending_category_tab;
-			System::Windows::Forms::SplitContainer^ splitContainer2;
-			System::Windows::Forms::Panel^ panel3;
-			System::Windows::Forms::Label^ monthly_category_spending;
-			System::Windows::Forms::Label^ monthly_category_spending_label;
-			System::Windows::Forms::DataVisualization::Charting::Chart^ monthly_category_spending_chart;
-
-
-			System::Windows::Forms::Panel^ panel4;
-			System::Windows::Forms::Label^ yearly_category_spending;
-			System::Windows::Forms::Label^ yearly_category_spending_label;
-			System::Windows::Forms::DataVisualization::Charting::Chart^ yearly_category_spending_chart;
+		System::Windows::Forms::ToolStripSeparator^ toolStripMenuItem1;
+		System::Windows::Forms::ToolStripMenuItem^ ExitToolStripMenuItem;
+		System::Windows::Forms::FolderBrowserDialog^ folderBrowserDialog1;
+		System::Windows::Forms::ToolStripSeparator^ toolStripMenuItem2;
+		System::Windows::Forms::ToolStripMenuItem^ RecentBookToolStripMenuItem;
+		System::Windows::Forms::ToolStripMenuItem^ Recent1toolStripMenuItem;
+		System::Windows::Forms::ToolStripMenuItem^ Recent2toolStripMenuItem5;
+		System::Windows::Forms::ToolStripMenuItem^ Recent3toolStripMenuItem6;
+		System::Windows::Forms::ToolStripMenuItem^ Recent4toolStripMenuItem7;
+		System::Windows::Forms::ToolStripMenuItem^ Recent5toolStripMenuItem8;
+		System::Windows::Forms::TabPage^ spending_category_tab;
+		System::Windows::Forms::SplitContainer^ splitContainer2;
+		System::Windows::Forms::Panel^ panel3;
+		System::Windows::Forms::Label^ monthly_category_spending;
+		System::Windows::Forms::Label^ monthly_category_spending_label;
+		System::Windows::Forms::DataVisualization::Charting::Chart^ monthly_category_spending_chart;
 
 
-			System::Windows::Forms::TabPage^ balance_ym_tab;
-			System::Windows::Forms::SplitContainer^ splitContainer1;
+		System::Windows::Forms::Panel^ panel4;
+		System::Windows::Forms::Label^ yearly_category_spending;
+		System::Windows::Forms::Label^ yearly_category_spending_label;
+		System::Windows::Forms::DataVisualization::Charting::Chart^ yearly_category_spending_chart;
 
 
-			System::Windows::Forms::Panel^ panel1;
-			System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel1;
-			System::Windows::Forms::Label^ monthly_income;
-			System::Windows::Forms::Label^ monthly_spending;
-			System::Windows::Forms::Label^ monthly_label;
-			System::Windows::Forms::DataVisualization::Charting::Chart^ monthly_balance_chart;
-			System::Windows::Forms::Panel^ panel2;
-			System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel2;
-			System::Windows::Forms::Label^ yearly_income;
-			System::Windows::Forms::Label^ yearly_spending;
-			System::Windows::Forms::Label^ yearly_label;
-			System::Windows::Forms::DataVisualization::Charting::Chart^ yearly_balance_chart;
-			System::Windows::Forms::TabPage^ main_tab;
-			System::Windows::Forms::Button^ delete_data_button;
-			System::Windows::Forms::Button^ add_data_button;
-			System::Windows::Forms::DataGridView^ history_grid;
-			System::Windows::Forms::DataGridViewTextBoxColumn^ date_text;
-			System::Windows::Forms::DataGridViewTextBoxColumn^ category;
-			System::Windows::Forms::DataGridViewTextBoxColumn^ memo;
-			System::Windows::Forms::DataGridViewTextBoxColumn^ payment_method;
-			System::Windows::Forms::DataGridViewTextBoxColumn^ amount_of_money;
-			System::Windows::Forms::TabControl^ tabs;
-			System::Windows::Forms::TabPage^ income_category_tab;
+		System::Windows::Forms::TabPage^ balance_ym_tab;
+		System::Windows::Forms::SplitContainer^ splitContainer1;
 
 
-			System::Windows::Forms::SplitContainer^ splitContainer3;
-			System::Windows::Forms::Panel^ panel5;
-			System::Windows::Forms::Label^ monthly_category_income;
+		System::Windows::Forms::Panel^ panel1;
+		System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel1;
+		System::Windows::Forms::Label^ monthly_income;
+		System::Windows::Forms::Label^ monthly_spending;
+		System::Windows::Forms::Label^ monthly_label;
+		System::Windows::Forms::DataVisualization::Charting::Chart^ monthly_balance_chart;
+		System::Windows::Forms::Panel^ panel2;
+		System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel2;
+		System::Windows::Forms::Label^ yearly_income;
+		System::Windows::Forms::Label^ yearly_spending;
+		System::Windows::Forms::Label^ yearly_label;
+		System::Windows::Forms::DataVisualization::Charting::Chart^ yearly_balance_chart;
+		System::Windows::Forms::TabPage^ main_tab;
+		System::Windows::Forms::Button^ delete_data_button;
+		System::Windows::Forms::Button^ add_data_button;
+		System::Windows::Forms::DataGridView^ history_grid;
+		System::Windows::Forms::DataGridViewTextBoxColumn^ date_text;
+		System::Windows::Forms::DataGridViewTextBoxColumn^ category;
+		System::Windows::Forms::DataGridViewTextBoxColumn^ memo;
+		System::Windows::Forms::DataGridViewTextBoxColumn^ payment_method;
+		System::Windows::Forms::DataGridViewTextBoxColumn^ amount_of_money;
+		System::Windows::Forms::TabControl^ tabs;
+		System::Windows::Forms::TabPage^ income_category_tab;
 
-			System::Windows::Forms::Label^ monthly_category_income_label;
-			System::Windows::Forms::DataVisualization::Charting::Chart^ monthly_category_income_chart;
+
+		System::Windows::Forms::SplitContainer^ splitContainer3;
+		System::Windows::Forms::Panel^ panel5;
+		System::Windows::Forms::Label^ monthly_category_income;
+
+		System::Windows::Forms::Label^ monthly_category_income_label;
+		System::Windows::Forms::DataVisualization::Charting::Chart^ monthly_category_income_chart;
 
 
-			System::Windows::Forms::Panel^ panel6;
-			System::Windows::Forms::Label^ yearly_category_income;
+		System::Windows::Forms::Panel^ panel6;
+		System::Windows::Forms::Label^ yearly_category_income;
 
-			System::Windows::Forms::Label^ yearly_category_income_label;
-			System::Windows::Forms::DataVisualization::Charting::Chart^ yearly_category_income_chart;
-			System::Windows::Forms::TabPage^ budget_tab;
-			System::Windows::Forms::SplitContainer^ splitContainer4;
-			System::Windows::Forms::Panel^ panel7;
-			System::Windows::Forms::Label^ budget_value;
-			System::Windows::Forms::Label^ budtet_label;
-			System::Windows::Forms::DataVisualization::Charting::Chart^ budget_chart;
-			System::Windows::Forms::Panel^ panel8;
-			System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel3;
-			System::Windows::Forms::ToolStripMenuItem^ DisplayStripMenuItem3;
-			System::Windows::Forms::ToolStripMenuItem^ ApplicationInfoToolStripMenuItem;
-			System::Windows::Forms::ToolStripMenuItem^ SettingToolStripMenuItem;
-			System::Windows::Forms::ToolStripSeparator^ toolStripMenuItem3;
+		System::Windows::Forms::Label^ yearly_category_income_label;
+		System::Windows::Forms::DataVisualization::Charting::Chart^ yearly_category_income_chart;
+		System::Windows::Forms::TabPage^ budget_tab;
+		System::Windows::Forms::SplitContainer^ splitContainer4;
+		System::Windows::Forms::Panel^ panel7;
+		System::Windows::Forms::Label^ budget_value;
+		System::Windows::Forms::Label^ budtet_label;
+		System::Windows::Forms::DataVisualization::Charting::Chart^ budget_chart;
+		System::Windows::Forms::Panel^ panel8;
+		System::Windows::Forms::FlowLayoutPanel^ flowLayoutPanel3;
+		System::Windows::Forms::ToolStripMenuItem^ DisplayStripMenuItem3;
+		System::Windows::Forms::ToolStripMenuItem^ ApplicationInfoToolStripMenuItem;
+		System::Windows::Forms::ToolStripMenuItem^ SettingToolStripMenuItem;
+		System::Windows::Forms::ToolStripSeparator^ toolStripMenuItem3;
 
-			System::ComponentModel::Container^ components;
+		System::ComponentModel::Container^ components;
 #pragma endregion
 #pragma region WindowsFormDesignerによって生成されたコード
 		void InitializeComponent(void)
@@ -1379,284 +1379,292 @@ namespace WalletCheck
 #pragma endregion
 
 #pragma region ユーザー定義
-		public:
-			/// <summary>
-			/// メッセージボックスを表示します。
-			/// </summary>
-			/// <param name="message">：表示するメッセージ</param>
-			/// <param name="title">：メッセージボックスのタイトル</param>
-			static Void Message(String^ message, String^ title);
+	public:
+		/// <summary>
+		/// メッセージボックスを表示します。
+		/// </summary>
+		/// <param name="message">：表示するメッセージ</param>
+		/// <param name="title">：メッセージボックスのタイトル</param>
+		static Void Message(String^ message, String^ title);
 
-			/// <summary>
-			/// アップデートをチェックします
-			/// </summary>
-			/// <returns>：0 = 成功 / -1 = 失敗</returns>
-			static int check_update();
+		/// <summary>
+		/// アップデートをチェックします
+		/// </summary>
+		/// <returns>：0 = 成功 / -1 = 失敗</returns>
+		static int check_update();
 
-		private:
-			int _form_height = 500;
+	private:
+		int _form_height = 500;
 
-			String ^_opening_bookpath;
-			int _opening_year;
-			int _opening_month;
+		String^ _opening_bookpath;
+		int _opening_year;
+		int _opening_month;
 
-			/// <summary>
-			/// 対象の型の呼び出し元以下の子コントロールを列挙します。
-			/// </summary>
-			/// <param name="sender">：呼び出し元</param>
-			/// <param name="type">：型</param>
-			/// <param name="list">：列挙先</param>
-			Void find_control(Object^ sender, Type^ type, List<Control^>% list);
+		/// <summary>
+		/// 対象の型の呼び出し元以下の子コントロールを列挙します。
+		/// </summary>
+		/// <param name="sender">：呼び出し元</param>
+		/// <param name="type">：型</param>
+		/// <param name="list">：列挙先</param>
+		Void find_control(Object^ sender, Type^ type, List<Control^>% list);
 
-			/// <summary>
-			/// グラフ領域の親子関係を設定します。
-			/// </summary>
-			/// <param name="sender">：呼び出し元</param>
-			Void _set_parent(Object^ sender);
+		/// <summary>
+		/// グラフ領域の親子関係を設定します。
+		/// </summary>
+		/// <param name="sender">：呼び出し元</param>
+		Void _set_parent(Object^ sender);
 
-			/// <summary>
-			/// 現在の年を取得します。
-			/// </summary>
-			/// <returns>現在の年（int）</returns>
-			int _GetYear();
+		/// <summary>
+		/// 現在の年を取得します。
+		/// </summary>
+		/// <returns>現在の年（int）</returns>
+		int _GetYear();
 
-			/// <summary>
-			/// 現在の月を取得します。
-			/// </summary>
-			/// <returns>現在の月（int）</returns>
-			int _GetMonth();
-			
-			/// <summary>
-			/// BookのパスからBook名を抜き出します。
-			/// </summary>
-			/// <param name="path">：Bookのパス</param>
-			/// <returns>Book名（System::String）</returns>
-			String^ _GetBookname_From_Path(String^ path);
+		/// <summary>
+		/// 現在の月を取得します。
+		/// </summary>
+		/// <returns>現在の月（int）</returns>
+		int _GetMonth();
 
-
-			/// <summary>
-			/// ページのパスから年、月を抜き出します。
-			/// </summary>
-			/// <param name="pagepath">：抜き出し対象のページのパス</param>
-			/// <param name="year">：年を保存する変数</param>
-			/// <param name="month">：月を保存する変数</param>
-			/// <returns></returns>
-			Void _GetYearMonth_From_PagePath(String^ pagepath,int% year,int% month);
-
-			/// <summary>
-			/// Bookのパス、年、月から指定のページのパスを作成します。
-			/// </summary>
-			/// <param name="bookpath_s">：Bookのパス</param>
-			/// <param name="year">：ページの年</param>
-			/// <param name="month">：ページの月</param>
-			/// <returns>ページのパス</returns>
-			String^ _MakePagePath(String^ bookpath_s, int year, int month);
-
-			/// <summary>
-			/// System::Stringの数値を整数型の数値にします。
-			/// </summary>
-			/// <param name="strnum">：System::String型の数値</param>
-			/// <returns>数値（long long）</returns>
-			long long _StringToInt(String^ strnum);
-
-			/// <summary>
-			/// Bookを新規作成するFormを表示し、Bookを作成します。
-			/// </summary>
-			Void _CreateBook();
-
-			/// <summary>
-			/// 指定パスのBookを開きます。
-			/// </summary>
-			/// <param name="bookpath_s">：Bookのパス</param>
-			Void _OpenBook(String^ bookpath_s);
-
-			/// <summary>
-			/// Bookのページを開きます。
-			/// </summary>
-			/// <param name="bookpath_s">：Bookのパス</param>
-			/// <param name="year">：開くページの年</param>
-			/// <param name="month">：開くページの月</param>
-			Void _OpenBookPage(String^ bookpath_s, int year, int month, List<List<String^>^>% return_L);
-
-			/// <summary>
-			/// Bookを保存します。
-			/// </summary>
-			/// <param name="bookpath_s">：Bookのパス</param>
-			/// <param name="year">：保存するページの年</param>
-			/// <param name="month">：保存するページの月</param>
-			Void _SaveBookPage(String^ bookpath_s, int year, int month);
-
-			/// <summary>
-			/// 指定のBookを最近使ったBookに追加します。
-			/// </summary>
-			/// <param name="bookpath_s">：追加するBookのパス</param>
-			Void _register_recently(String^ bookpath_s);
-
-			/// <summary>
-			/// DataGridViewに値を追加します。
-			/// </summary>
-			/// <param name="targetform">：DataGridViewが所属するForm</param>
-			/// <param name="gridname">：DataGridViewの名前</param>
-			/// <param name="values">：追加する値</param>
-			Void _load_grid(String^ gridname, List<List <String^>^>% values);
-
-			/// <summary>
-			/// 開いているページの情報をラベルに表示します。
-			/// </summary>
-			Void _diaplay_pageinfo();
-
-			/// <summary>
-			/// ToolStripMenuの”最近のBook”に最近使ったBookをConfigより取得して表示します。
-			/// </summary>
-			Void _show_recentbook_toolstripmenu();
-
-			/// <summary>
-			/// DonutDataのListをソートします。
-			/// </summary>
-			/// <param name="list">ソートするDonutDataのlistです。</param>
-			Void _sort_donutdata_list(List<DonutData^>% list);
-
-			/// <summary>
-			/// ドーナツ型グラフを読み込みます。
-			/// </summary>
-			/// <param name="sender">：呼び出し元Object</param>
-			/// <param name="chartname">：対象のChart名</param>
-			/// <param name="donutdata">：読み込むDonutData</param>
-			Void _load_donut_graph(Object^ sender, String^ chartname,List<DonutData^ >% donutdata);
-
-			/// <summary>
-			/// 収支のグラフを読み込みます。
-			/// </summary>
-			/// <param name="chartname">：対象のグラフ名</param>
-			/// <param name="spending">：支出の値</param>
-			/// <param name="income">：収入の値</param>
-			Void _load_balance_graph(String^ chartname, long long% spending, long long% income);
-
-			/// <summary>
-			/// 月間収支を取得します。
-			/// </summary>
-			/// <param name="year">：年</param>
-			/// <param name="month">：月</param>
-			/// <param name="spending">：支出の値を入れる変数</param>
-			/// <param name="income">：収入の値を入れる変数</param>
-			Void _get_monthly_spending_and_income(int year,int month,long long% spending,long long% income);
-
-			/// <summary>
-			/// 月間の収支のグラフを読み込みます。
-			/// </summary>
-			Void _load_monthly_balance_graph();
-
-			/// <summary>
-			/// 年間の収支を取得します。
-			/// </summary>
-			/// <param name="year"：年></param>
-			/// <param name="spending">：支出の値を入れる変数</param>
-			/// <param name="income">：収入の値を入れる変数</param>
-			Void _get_yearly_spending_and_income(int year,long long% spending,long long% income);
-
-			/// <summary>
-			/// 年間の収支のグラフを読み込みます。
-			/// </summary>
-			Void _load_yearly_balance_graph();
+		/// <summary>
+		/// BookのパスからBook名を抜き出します。
+		/// </summary>
+		/// <param name="path">：Bookのパス</param>
+		/// <returns>Book名（System::String）</returns>
+		String^ _GetBookname_From_Path(String^ path);
 
 
-			/// <summary>
-			/// カテゴリ別月間収支を取得します。
-			/// </summary>
-			/// <param name="year">：年</param>
-			/// <param name="month">：月</param>
-			/// <param name="data">：データ保存先</param>
-			/// <param name="type">:ture=収入　false=支出</param>
-			/// <returns></returns>
-			Void _get_monthly_category(int year,int month,List<DonutData^>% data,bool type);
-			
-			/// <summary>
-			/// カテゴリ別月間支出のグラフを読み込みます。
-			/// </summary>
-			Void _load_monthly_category_spending_graph();
-			
-			/// <summary>
-			/// カテゴリ別年間支出を読み込みます。
-			/// </summary>
-			/// <param name="year">：年</param>
-			/// <param name="data">：月</param>
-			/// <param name="type">：ture=収入　false=支出</param>
-			Void _get_yearly_category(int year, List<DonutData^>% data,bool type);
+		/// <summary>
+		/// ページのパスから年、月を抜き出します。
+		/// </summary>
+		/// <param name="pagepath">：抜き出し対象のページのパス</param>
+		/// <param name="year">：年を保存する変数</param>
+		/// <param name="month">：月を保存する変数</param>
+		/// <returns></returns>
+		Void _GetYearMonth_From_PagePath(String^ pagepath, int% year, int% month);
 
-			/// <summary>
-			/// カテゴリ別年間支出のグラフを読み込みます。
-			/// </summary>
-			Void _load_yearly_category_spending_graph();
+		/// <summary>
+		/// Bookのパス、年、月から指定のページのパスを作成します。
+		/// </summary>
+		/// <param name="bookpath_s">：Bookのパス</param>
+		/// <param name="year">：ページの年</param>
+		/// <param name="month">：ページの月</param>
+		/// <returns>ページのパス</returns>
+		String^ _MakePagePath(String^ bookpath_s, int year, int month);
 
-			/// <summary>
-			/// カテゴリ別月間収入のグラフを読み込みます。
-			/// </summary>
-			Void _load_monthly_category_income_graph();
+		/// <summary>
+		/// System::Stringの数値を整数型の数値にします。
+		/// </summary>
+		/// <param name="strnum">：System::String型の数値</param>
+		/// <returns>数値（long long）</returns>
+		long long _StringToInt(String^ strnum);
 
-			/// <summary>
-			/// カテゴリ別年間収入のグラフを読み込みます。
-			/// </summary>
-			Void _load_yearly_category_income_graph();
+		/// <summary>
+		/// Bookを新規作成するFormを表示し、Bookを作成します。
+		/// </summary>
+		Void _CreateBook();
 
-			/// <summary>
-			/// 支払別予算を取得します。
-			/// </summary>
-			Void _get_budget_payment(List<DonutData^>% data);
+		/// <summary>
+		/// 指定パスのBookを開きます。
+		/// </summary>
+		/// <param name="bookpath_s">：Bookのパス</param>
+		Void _OpenBook(String^ bookpath_s);
 
-			/// <summary>
-			/// 予算のグラフを読み込みます。
-			/// </summary>
-			Void _load_budget_graph();
+		/// <summary>
+		/// Bookのページを開きます。
+		/// </summary>
+		/// <param name="bookpath_s">：Bookのパス</param>
+		/// <param name="year">：開くページの年</param>
+		/// <param name="month">：開くページの月</param>
+		Void _OpenBookPage(String^ bookpath_s, int year, int month, List<List<String^>^>% return_L);
 
-			/// <summary>
-			/// 支払別予算を読み込みます。
-			/// </summary>
-			Void _load_budget_payment();
+		/// <summary>
+		/// Bookを保存します。
+		/// </summary>
+		/// <param name="bookpath_s">：Bookのパス</param>
+		/// <param name="year">：保存するページの年</param>
+		/// <param name="month">：保存するページの月</param>
+		Void _SaveBookPage(String^ bookpath_s, int year, int month);
 
-			/// <summary>
-			/// 表とグラフを読み込みます。
-			/// </summary>
-			Void _load_grid_and_graph();
+		/// <summary>
+		/// 現在開いているbookの情報を変更します。
+		/// </summary>
+		/// <param name="bookpath">：bookのパス</param>
+		/// <param name="year">：年</param>
+		/// <param name="month">：月</param>
+		Void _SetOpening(String^ bookpath, int year, int month);
 
-			/// <summary>
-			/// フォントサイズをフォームの高さによって調節します。
-			/// </summary>
-			Void _resize_fontsize(Object^ sender, EventArgs^ e);
+		/// <summary>
+		/// 指定のBookを最近使ったBookに追加します。
+		/// </summary>
+		/// <param name="bookpath_s">：追加するBookのパス</param>
+		Void _register_recently(String^ bookpath_s);
 
-			/// <summary>
-			/// アップデートが存在するか確かめます。
-			/// </summary>
-			/// <returns>：0 = 成功 / -1 = 失敗</returns>
-			static int _check_update();
+		/// <summary>
+		/// DataGridViewに値を追加します。
+		/// </summary>
+		/// <param name="targetform">：DataGridViewが所属するForm</param>
+		/// <param name="gridname">：DataGridViewの名前</param>
+		/// <param name="values">：追加する値</param>
+		Void _load_grid(String^ gridname, List<List <String^>^>% values);
 
-			/// <summary>
-			/// アップデーターをダウンロードします。
-			/// </summary>
-			/// <returns>0 = 成功 / -1 = 失敗</returns>
-			static int _download_updater();
+		/// <summary>
+		/// 開いているページの情報をラベルに表示します。
+		/// </summary>
+		Void _diaplay_pageinfo();
+
+		/// <summary>
+		/// ToolStripMenuの”最近のBook”に最近使ったBookをConfigより取得して表示します。
+		/// </summary>
+		Void _show_recentbook_toolstripmenu();
+
+		/// <summary>
+		/// DonutDataのListをソートします。
+		/// </summary>
+		/// <param name="list">ソートするDonutDataのlistです。</param>
+		Void _sort_donutdata_list(List<DonutData^>% list);
+
+		/// <summary>
+		/// ドーナツ型グラフを読み込みます。
+		/// </summary>
+		/// <param name="sender">：呼び出し元Object</param>
+		/// <param name="chartname">：対象のChart名</param>
+		/// <param name="donutdata">：読み込むDonutData</param>
+		Void _load_donut_graph(Object^ sender, String^ chartname, List<DonutData^ >% donutdata);
+
+		/// <summary>
+		/// 収支のグラフを読み込みます。
+		/// </summary>
+		/// <param name="chartname">：対象のグラフ名</param>
+		/// <param name="spending">：支出の値</param>
+		/// <param name="income">：収入の値</param>
+		Void _load_balance_graph(String^ chartname, long long% spending, long long% income);
+
+		/// <summary>
+		/// 月間収支を取得します。
+		/// </summary>
+		/// <param name="year">：年</param>
+		/// <param name="month">：月</param>
+		/// <param name="spending">：支出の値を入れる変数</param>
+		/// <param name="income">：収入の値を入れる変数</param>
+		Void _get_monthly_spending_and_income(int year, int month, long long% spending, long long% income);
+
+		/// <summary>
+		/// 月間の収支のグラフを読み込みます。
+		/// </summary>
+		Void _load_monthly_balance_graph();
+
+		/// <summary>
+		/// 年間の収支を取得します。
+		/// </summary>
+		/// <param name="year"：年></param>
+		/// <param name="spending">：支出の値を入れる変数</param>
+		/// <param name="income">：収入の値を入れる変数</param>
+		Void _get_yearly_spending_and_income(int year, long long% spending, long long% income);
+
+		/// <summary>
+		/// 年間の収支のグラフを読み込みます。
+		/// </summary>
+		Void _load_yearly_balance_graph();
+
+
+		/// <summary>
+		/// カテゴリ別月間収支を取得します。
+		/// </summary>
+		/// <param name="year">：年</param>
+		/// <param name="month">：月</param>
+		/// <param name="data">：データ保存先</param>
+		/// <param name="type">:ture=収入　false=支出</param>
+		/// <returns></returns>
+		Void _get_monthly_category(int year, int month, List<DonutData^>% data, bool type);
+
+		/// <summary>
+		/// カテゴリ別月間支出のグラフを読み込みます。
+		/// </summary>
+		Void _load_monthly_category_spending_graph();
+
+		/// <summary>
+		/// カテゴリ別年間支出を読み込みます。
+		/// </summary>
+		/// <param name="year">：年</param>
+		/// <param name="data">：月</param>
+		/// <param name="type">：ture=収入　false=支出</param>
+		Void _get_yearly_category(int year, List<DonutData^>% data, bool type);
+
+		/// <summary>
+		/// カテゴリ別年間支出のグラフを読み込みます。
+		/// </summary>
+		Void _load_yearly_category_spending_graph();
+
+		/// <summary>
+		/// カテゴリ別月間収入のグラフを読み込みます。
+		/// </summary>
+		Void _load_monthly_category_income_graph();
+
+		/// <summary>
+		/// カテゴリ別年間収入のグラフを読み込みます。
+		/// </summary>
+		Void _load_yearly_category_income_graph();
+
+		/// <summary>
+		/// 支払別予算を取得します。
+		/// </summary>
+		Void _get_budget_payment(List<DonutData^>% data);
+
+		/// <summary>
+		/// 予算のグラフを読み込みます。
+		/// </summary>
+		Void _load_budget_graph();
+
+		/// <summary>
+		/// 支払別予算を読み込みます。
+		/// </summary>
+		Void _load_budget_payment();
+
+		/// <summary>
+		/// 表とグラフを読み込みます。
+		/// </summary>
+		Void _load_grid_and_graph();
+
+		/// <summary>
+		/// フォントサイズをフォームの高さによって調節します。
+		/// </summary>
+		Void _resize_fontsize(Object^ sender, EventArgs^ e);
+
+		/// <summary>
+		/// アップデートが存在するか確かめます。
+		/// </summary>
+		/// <returns>：0 = 成功 / -1 = 失敗</returns>
+		static int _check_update();
+
+		/// <summary>
+		/// アップデーターをダウンロードします。
+		/// </summary>
+		/// <returns>0 = 成功 / -1 = 失敗</returns>
+		static int _download_updater();
 
 #pragma endregion
 #pragma region イベントハンドラ等
-		private:
-			Void MainForm_Load(Object^ sender, EventArgs^ e);
-			Void tabs_DrawItem(Object^ sender, System::Windows::Forms::DrawItemEventArgs^ e);
-			Void CreateNewToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
-			Void OpenToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
-			Void RecenttoolStripMenuItem_Click(Object^ sender, EventArgs^ e);
-			Void ExitToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
-			Void ApplicationInfoToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
+	private:
+		Void MainForm_Load(Object^ sender, EventArgs^ e);
+		Void tabs_DrawItem(Object^ sender, System::Windows::Forms::DrawItemEventArgs^ e);
+		Void CreateNewToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
+		Void OpenToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
+		Void RecenttoolStripMenuItem_Click(Object^ sender, EventArgs^ e);
+		Void ExitToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
+		Void ApplicationInfoToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
 
 
-			Void previous_button_Click(Object^ sender, EventArgs^ e);
-			Void next_button_Click(Object^ sender, EventArgs^ e);
-			Void add_data_button_Click(Object^ sender, EventArgs^ e);
-			Void delete_data_button_Click(System::Object^ sender, System::EventArgs^ e);
-			Void history_grid_SortCompare(Object^ sender, System::Windows::Forms::DataGridViewSortCompareEventArgs^ e);
+		Void previous_button_Click(Object^ sender, EventArgs^ e);
+		Void next_button_Click(Object^ sender, EventArgs^ e);
+		Void add_data_button_Click(Object^ sender, EventArgs^ e);
+		Void delete_data_button_Click(System::Object^ sender, System::EventArgs^ e);
+		Void history_grid_SortCompare(Object^ sender, System::Windows::Forms::DataGridViewSortCompareEventArgs^ e);
 #pragma endregion
 
-			System::Void SettingToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-			System::Void tabs_Resize(System::Object^ sender, System::EventArgs^ e);
+		System::Void SettingToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void tabs_Resize(System::Object^ sender, System::EventArgs^ e);
 
-			System::Void tabs_VisibleChanged(System::Object^ sender, System::EventArgs^ e);
+		System::Void tabs_VisibleChanged(System::Object^ sender, System::EventArgs^ e);
 	};
 }

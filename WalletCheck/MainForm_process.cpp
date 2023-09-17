@@ -128,9 +128,13 @@ Void WalletCheck::MainForm::_GetYearMonth_From_PagePath(String^ pagepath, int% y
 
 	pagepath = pagepath->Replace(_opening_bookpath + "\\", "");	//\以前の文字列を削除
 	pagepath = pagepath->Replace(".wc.csv", "");	//拡張子部分を削除
-	for (int i = 0; i < 4; i++)	//年を取り出し
+	for (int i = 0; i < pagepath->Length; i++)	//年を取り出し
 	{
-		cache_year += pagepath[i];
+		wchar_t letter = pagepath[i];
+		if (letter == '_')	//文字がアンダーバーだったら
+			break;			//for停止
+
+		cache_year += letter;
 	}
 	cache_month = pagepath->Replace(cache_year + "_", "");//YYYY_MMからYYYY_を削除
 
@@ -156,25 +160,26 @@ Void WalletCheck::MainForm::_CreateBook()
 	Form^ createnewdialog = gcnew CreateNewForm();	// Book新規作成するFormをgcnewする
 	if (createnewdialog->ShowDialog(this).ToString() == "OK")		//Formを表示して結果がOKか確かめる
 	{
-		_opening_bookpath = CreateNewForm::GetBookPath();	// Formに入力されたパスを取得
+		String^ bookpath_s = CreateNewForm::GetBookPath();	// Formに入力されたパスを取得
 		char bookpath[CHAR_STR_BUF];	//char配列形式でpathを保存する変数
-		string_convert::SystemString_to_CString(_opening_bookpath, bookpath);	//filepathをString→char[]
+		string_convert::SystemString_to_CString(bookpath_s, bookpath);	//filepathをString→char[]
 
 		if (_mkdir(bookpath) != 0)	//filepathをもとにディレクトリを作成　失敗 
 		{
-			Message(_opening_bookpath + "を作成できません。\n既に存在しているか、使用できないBook名です。", "エラー");
+			Message(bookpath_s + "を作成できません。\n既に存在しているか、使用できないBook名です。", "エラー");
 			return;
 		}
 
 		//以下ディレクトリを作成できたとき
 		char pagepath[CHAR_STR_BUF];
-		_opening_year = _GetYear();	//開いている年を今年に
-		_opening_month = _GetMonth();	//開いている月を今月に
-		string_convert::SystemString_to_CString(_MakePagePath(_opening_bookpath, _opening_year,_opening_month), pagepath);	//ページのpathを作成＆char[]に変換
+		int year = _GetYear();	//開いている年を今年に
+		int month = _GetMonth();	//開いている月を今月に
+		string_convert::SystemString_to_CString(_MakePagePath(bookpath_s, year,month), pagepath);	//ページのpathを作成＆char[]に変換
 		ofstream file_stream(pagepath);	//今月のページを作成
-		_register_recently(_opening_bookpath);	//アプリケーション設定の最近使用したファイルに追加
+		_register_recently(bookpath_s);	//アプリケーション設定の最近使用したファイルに追加
 		List<List<String^>^> page_data;
-		_OpenBookPage(_opening_bookpath, _opening_year, _opening_month,page_data);
+		_OpenBookPage(bookpath_s, year, month, page_data);
+		_SetOpening(bookpath_s,year,month);
 		_load_grid_and_graph();
 		tabs->SelectedIndex = 0;
 		tabs->Enabled = true;
@@ -191,28 +196,29 @@ Void WalletCheck::MainForm::_OpenBook(String^ bookpath_s)
 		return;
 	}
 	//以下csvファイルが見つかった時
-	_opening_bookpath = bookpath_s;
-	_register_recently(_opening_bookpath);	//最近開いたファイルに登録
-	_opening_year = _GetYear();	// 開いている年を今の年に
-	_opening_month = _GetMonth();	//開いている月を今の月に
-	auto filenames = Directory::GetFiles(_opening_bookpath, "*.wc.csv");	//パス内のファイル一覧を取得
+	_register_recently(bookpath_s);	//最近開いたファイルに登録
+	int year = _GetYear();	// 開いている年を今の年に
+	int month = _GetMonth();	//開いている月を今の月に
+	auto filenames = Directory::GetFiles(bookpath_s, "*.wc.csv");	//パス内のファイル一覧を取得
 	for (int i = 0; i < filenames->Length; i++)	//ファイル分繰り返す	
 	{
 		// 今年、今月のファイルがあるか調べる
-		if (filenames[i] == _MakePagePath(_opening_bookpath, _opening_year, _opening_month))
+		if (filenames[i] == _MakePagePath(bookpath_s, year, month))
 		{
 			List<List<String^>^> page_data;
-			_OpenBookPage(_opening_bookpath, _opening_year, _opening_month,page_data);	//あったら開く
+			_OpenBookPage(bookpath_s, year, month, page_data);	//あったら開く
+			_SetOpening(bookpath_s, year, month);
 			return;
 		}
 	}
+
 	/*以下今月のファイルが無かった時*/
 	/*フォルダ内の一番初めに見つかったファイルを開く*/
 	//ファイル名から年、月を取り出すための仮置き変数
-	int year, month;
 	_GetYearMonth_From_PagePath(filenames[0], year, month);
-	_opening_year = year;
-	_opening_month = month;
+	List<List<String^>^> page_data;
+	_OpenBookPage(bookpath_s, year, month, page_data);
+	_SetOpening(bookpath_s, year, month);
 }
 
 /// <summary>Bookのページを開きます。</summary>
@@ -220,6 +226,7 @@ Void WalletCheck::MainForm::_OpenBookPage(System::String^ bookpath_s, int year, 
 {
 	char pagepath[CHAR_STR_BUF];	//ページへのpathをchar[]に入れる変数
 	string_convert::SystemString_to_CString(_MakePagePath(bookpath_s, year, month), pagepath);
+	
 	if (filesystem::is_regular_file(pagepath) == false)	//ページのファイルが存在しなかったら
 	{
 		ofstream output_file(pagepath);	//ページのファイルを新規作成
@@ -230,14 +237,14 @@ Void WalletCheck::MainForm::_OpenBookPage(System::String^ bookpath_s, int year, 
 	// 以下ページのファイルが存在したとき
 	ifstream input_file(pagepath);	//入力ファイルストリーム
 	string bufstr;	// 1行ごとに取得する文字列を仮置きする変数
-
+	
 
 	while (getline(input_file, bufstr))	//行単位で文字列を取得
 	{
 		//1行のcsvをvectorに変換
 		List<String^> str_comma_L;
 		csv_manager::Parse(string_convert::string_to_SystemString(bufstr),str_comma_L);
-		if (str_comma_L.Count != 5)
+		if (str_comma_L.Count != 5)	//データ列が5個でなかったら
 		{
 			Message("破損したデータです。破損したデータは削除されます。", "エラー");
 		}
@@ -246,7 +253,13 @@ Void WalletCheck::MainForm::_OpenBookPage(System::String^ bookpath_s, int year, 
 			return_L.Add(% str_comma_L);
 		}
 	}
-	
+}
+
+Void WalletCheck::MainForm::_SetOpening(String^ bookpath, int year, int month)
+{
+	_opening_bookpath = bookpath;
+	_opening_year = year;
+	_opening_month = month;
 }
 
 /// <summary>Bookを保存します。</summary>
@@ -671,12 +684,12 @@ Void WalletCheck::MainForm::_load_grid_and_graph()
 	_load_grid("history_grid", grid_data);	//表を読み込む
 	_load_yearly_balance_graph();	//月間収支を読み込む
 	_load_monthly_balance_graph();	//年間収支を読み込む
-	_load_monthly_category_spending_graph();	//カテゴリ別月間収支を読み込む
-	_load_yearly_category_spending_graph();
-	_load_monthly_category_income_graph();
-	_load_yearly_category_income_graph();
-	_load_budget_graph();
-	_load_budget_payment();
+	_load_monthly_category_spending_graph();	//カテゴリ別月間支出を読み込む
+	_load_yearly_category_spending_graph();		//カテゴリ別年間支出を読み込む
+	_load_monthly_category_income_graph();		//カテゴリ別月間収入を読み込む
+	_load_yearly_category_income_graph();		//カテゴリ別年間収入を読み込む
+	_load_budget_graph();	//予算のグラフを読み込む
+	_load_budget_payment();	//決済別予算一覧を読み込む*/
 	tabs->Enabled = true;
 	delete_data_button->Enabled = true;
 }
