@@ -1653,6 +1653,7 @@ namespace WalletCheck
 		Void RecenttoolStripMenuItem_Click(Object^ sender, EventArgs^ e);
 		Void ExitToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
 		Void ApplicationInfoToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
+		Void OfficialSiteToolStripMenuItem_Click(Object^ sender, EventArgs^ e);
 
 
 		Void previous_button_Click(Object^ sender, EventArgs^ e);

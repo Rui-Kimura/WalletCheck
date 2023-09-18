@@ -3,6 +3,8 @@
 	MainFormのイベントです。
 */
 
+#define OFFICIAL_URL "http://runachama.com/WalletCheck/main.html"
+
 #define TRUE "True"
 #define FALSE "False"
 
@@ -12,6 +14,7 @@
 #include "app_config.h"
 #include "string_convertr.h"
 #include <filesystem>
+using namespace System::Diagnostics;
 using namespace System::Windows::Forms::DataVisualization::Charting;
 
 using namespace app_config;
@@ -208,3 +211,12 @@ Void WalletCheck::MainForm::ApplicationInfoToolStripMenuItem_Click(Object^ sende
 	infoform->ShowDialog();
 }
 
+//公式サイトが押された時のイベント
+Void WalletCheck::MainForm::OfficialSiteToolStripMenuItem_Click(Object^ sender,EventArgs^ e)
+{
+	ProcessStartInfo^ processinfo = gcnew ProcessStartInfo();
+	processinfo->FileName = OFFICIAL_URL;	//プロセス名情報にURLを渡す
+	processinfo->UseShellExecute = true;	//実行時にシェルを使用
+	Process::Start(processinfo);
+	return;
+}
