@@ -129,6 +129,8 @@ namespace WalletCheck
 		System::Windows::Forms::ToolStripMenuItem^ ApplicationInfoToolStripMenuItem;
 		System::Windows::Forms::ToolStripMenuItem^ SettingToolStripMenuItem;
 		System::Windows::Forms::ToolStripSeparator^ toolStripMenuItem3;
+private: System::Windows::Forms::ToolStripSeparator^ toolStripMenuItem4;
+private: System::Windows::Forms::ToolStripMenuItem^ OfficialSiteToolStripMenuItem;
 
 		System::ComponentModel::Container^ components;
 #pragma endregion
@@ -225,6 +227,8 @@ namespace WalletCheck
 			this->budget_chart = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->panel8 = (gcnew System::Windows::Forms::Panel());
 			this->flowLayoutPanel3 = (gcnew System::Windows::Forms::FlowLayoutPanel());
+			this->toolStripMenuItem4 = (gcnew System::Windows::Forms::ToolStripSeparator());
+			this->OfficialSiteToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->spending_category_tab->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer2))->BeginInit();
@@ -392,9 +396,9 @@ namespace WalletCheck
 			// 
 			// DisplayStripMenuItem3
 			// 
-			this->DisplayStripMenuItem3->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+			this->DisplayStripMenuItem3->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(5) {
 				this->SettingToolStripMenuItem,
-					this->toolStripMenuItem3, this->ApplicationInfoToolStripMenuItem
+					this->toolStripMenuItem3, this->ApplicationInfoToolStripMenuItem, this->toolStripMenuItem4, this->OfficialSiteToolStripMenuItem
 			});
 			this->DisplayStripMenuItem3->Name = L"DisplayStripMenuItem3";
 			this->DisplayStripMenuItem3->Size = System::Drawing::Size(58, 20);
@@ -403,19 +407,19 @@ namespace WalletCheck
 			// SettingToolStripMenuItem
 			// 
 			this->SettingToolStripMenuItem->Name = L"SettingToolStripMenuItem";
-			this->SettingToolStripMenuItem->Size = System::Drawing::Size(167, 22);
+			this->SettingToolStripMenuItem->Size = System::Drawing::Size(180, 22);
 			this->SettingToolStripMenuItem->Text = L"設定(&S)";
 			this->SettingToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::SettingToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem3
 			// 
 			this->toolStripMenuItem3->Name = L"toolStripMenuItem3";
-			this->toolStripMenuItem3->Size = System::Drawing::Size(164, 6);
+			this->toolStripMenuItem3->Size = System::Drawing::Size(177, 6);
 			// 
 			// ApplicationInfoToolStripMenuItem
 			// 
 			this->ApplicationInfoToolStripMenuItem->Name = L"ApplicationInfoToolStripMenuItem";
-			this->ApplicationInfoToolStripMenuItem->Size = System::Drawing::Size(167, 22);
+			this->ApplicationInfoToolStripMenuItem->Size = System::Drawing::Size(180, 22);
 			this->ApplicationInfoToolStripMenuItem->Text = L"アプリケーション情報";
 			this->ApplicationInfoToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::ApplicationInfoToolStripMenuItem_Click);
 			// 
@@ -511,7 +515,7 @@ namespace WalletCheck
 			// splitContainer2.Panel2
 			// 
 			this->splitContainer2->Panel2->Controls->Add(this->panel4);
-			this->splitContainer2->Size = System::Drawing::Size(612, 309);
+			this->splitContainer2->Size = System::Drawing::Size(612, 334);
 			this->splitContainer2->SplitterDistance = 306;
 			this->splitContainer2->SplitterWidth = 3;
 			this->splitContainer2->TabIndex = 5;
@@ -528,7 +532,7 @@ namespace WalletCheck
 			this->panel3->Location = System::Drawing::Point(0, 0);
 			this->panel3->Margin = System::Windows::Forms::Padding(2);
 			this->panel3->Name = L"panel3";
-			this->panel3->Size = System::Drawing::Size(306, 309);
+			this->panel3->Size = System::Drawing::Size(306, 334);
 			this->panel3->TabIndex = 8;
 			// 
 			// monthly_category_spending
@@ -536,7 +540,7 @@ namespace WalletCheck
 			this->monthly_category_spending->AutoSize = true;
 			this->monthly_category_spending->BackColor = System::Drawing::Color::Transparent;
 			this->monthly_category_spending->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->monthly_category_spending->Location = System::Drawing::Point(0, 285);
+			this->monthly_category_spending->Location = System::Drawing::Point(0, 310);
 			this->monthly_category_spending->Margin = System::Windows::Forms::Padding(4);
 			this->monthly_category_spending->Name = L"monthly_category_spending";
 			this->monthly_category_spending->Padding = System::Windows::Forms::Padding(4);
@@ -576,7 +580,7 @@ namespace WalletCheck
 			series1->Name = L"monthly_category_graph";
 			series1->YValuesPerPoint = 4;
 			this->monthly_category_spending_chart->Series->Add(series1);
-			this->monthly_category_spending_chart->Size = System::Drawing::Size(306, 309);
+			this->monthly_category_spending_chart->Size = System::Drawing::Size(306, 334);
 			this->monthly_category_spending_chart->TabIndex = 1;
 			this->monthly_category_spending_chart->Text = L"chart1";
 			// 
@@ -592,7 +596,7 @@ namespace WalletCheck
 			this->panel4->Location = System::Drawing::Point(0, 0);
 			this->panel4->Margin = System::Windows::Forms::Padding(2);
 			this->panel4->Name = L"panel4";
-			this->panel4->Size = System::Drawing::Size(303, 309);
+			this->panel4->Size = System::Drawing::Size(303, 334);
 			this->panel4->TabIndex = 9;
 			// 
 			// yearly_category_spending
@@ -600,7 +604,7 @@ namespace WalletCheck
 			this->yearly_category_spending->AutoSize = true;
 			this->yearly_category_spending->BackColor = System::Drawing::Color::Transparent;
 			this->yearly_category_spending->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->yearly_category_spending->Location = System::Drawing::Point(0, 285);
+			this->yearly_category_spending->Location = System::Drawing::Point(0, 310);
 			this->yearly_category_spending->Margin = System::Windows::Forms::Padding(4);
 			this->yearly_category_spending->Name = L"yearly_category_spending";
 			this->yearly_category_spending->Padding = System::Windows::Forms::Padding(4);
@@ -640,7 +644,7 @@ namespace WalletCheck
 			series2->Name = L"monthly_balance_graph";
 			series2->YValuesPerPoint = 4;
 			this->yearly_category_spending_chart->Series->Add(series2);
-			this->yearly_category_spending_chart->Size = System::Drawing::Size(303, 309);
+			this->yearly_category_spending_chart->Size = System::Drawing::Size(303, 334);
 			this->yearly_category_spending_chart->TabIndex = 1;
 			this->yearly_category_spending_chart->Text = L"chart1";
 			// 
@@ -674,7 +678,7 @@ namespace WalletCheck
 			// splitContainer1.Panel2
 			// 
 			this->splitContainer1->Panel2->Controls->Add(this->panel2);
-			this->splitContainer1->Size = System::Drawing::Size(612, 309);
+			this->splitContainer1->Size = System::Drawing::Size(612, 334);
 			this->splitContainer1->SplitterDistance = 306;
 			this->splitContainer1->SplitterWidth = 3;
 			this->splitContainer1->TabIndex = 5;
@@ -691,7 +695,7 @@ namespace WalletCheck
 			this->panel1->Location = System::Drawing::Point(0, 0);
 			this->panel1->Margin = System::Windows::Forms::Padding(2);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(306, 309);
+			this->panel1->Size = System::Drawing::Size(306, 334);
 			this->panel1->TabIndex = 8;
 			// 
 			// flowLayoutPanel1
@@ -702,7 +706,7 @@ namespace WalletCheck
 			this->flowLayoutPanel1->Controls->Add(this->monthly_income);
 			this->flowLayoutPanel1->Controls->Add(this->monthly_spending);
 			this->flowLayoutPanel1->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->flowLayoutPanel1->Location = System::Drawing::Point(0, 269);
+			this->flowLayoutPanel1->Location = System::Drawing::Point(0, 294);
 			this->flowLayoutPanel1->Margin = System::Windows::Forms::Padding(4);
 			this->flowLayoutPanel1->Name = L"flowLayoutPanel1";
 			this->flowLayoutPanel1->Padding = System::Windows::Forms::Padding(4);
@@ -764,7 +768,7 @@ namespace WalletCheck
 			series3->Name = L"monthly_balance_graph";
 			series3->YValuesPerPoint = 4;
 			this->monthly_balance_chart->Series->Add(series3);
-			this->monthly_balance_chart->Size = System::Drawing::Size(306, 309);
+			this->monthly_balance_chart->Size = System::Drawing::Size(306, 334);
 			this->monthly_balance_chart->TabIndex = 1;
 			this->monthly_balance_chart->Text = L"chart1";
 			this->monthly_balance_chart->Resize += gcnew System::EventHandler(this, &MainForm::_resize_fontsize);
@@ -781,7 +785,7 @@ namespace WalletCheck
 			this->panel2->Location = System::Drawing::Point(0, 0);
 			this->panel2->Margin = System::Windows::Forms::Padding(2);
 			this->panel2->Name = L"panel2";
-			this->panel2->Size = System::Drawing::Size(303, 309);
+			this->panel2->Size = System::Drawing::Size(303, 334);
 			this->panel2->TabIndex = 9;
 			// 
 			// flowLayoutPanel2
@@ -792,7 +796,7 @@ namespace WalletCheck
 			this->flowLayoutPanel2->Controls->Add(this->yearly_income);
 			this->flowLayoutPanel2->Controls->Add(this->yearly_spending);
 			this->flowLayoutPanel2->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->flowLayoutPanel2->Location = System::Drawing::Point(0, 269);
+			this->flowLayoutPanel2->Location = System::Drawing::Point(0, 294);
 			this->flowLayoutPanel2->Margin = System::Windows::Forms::Padding(4);
 			this->flowLayoutPanel2->Name = L"flowLayoutPanel2";
 			this->flowLayoutPanel2->Padding = System::Windows::Forms::Padding(4);
@@ -854,7 +858,7 @@ namespace WalletCheck
 			series4->Name = L"monthly_balance_graph";
 			series4->YValuesPerPoint = 4;
 			this->yearly_balance_chart->Series->Add(series4);
-			this->yearly_balance_chart->Size = System::Drawing::Size(303, 309);
+			this->yearly_balance_chart->Size = System::Drawing::Size(303, 334);
 			this->yearly_balance_chart->TabIndex = 1;
 			this->yearly_balance_chart->Text = L"chart1";
 			// 
@@ -1048,7 +1052,7 @@ namespace WalletCheck
 			// splitContainer3.Panel2
 			// 
 			this->splitContainer3->Panel2->Controls->Add(this->panel6);
-			this->splitContainer3->Size = System::Drawing::Size(612, 309);
+			this->splitContainer3->Size = System::Drawing::Size(612, 334);
 			this->splitContainer3->SplitterDistance = 306;
 			this->splitContainer3->SplitterWidth = 3;
 			this->splitContainer3->TabIndex = 5;
@@ -1065,7 +1069,7 @@ namespace WalletCheck
 			this->panel5->Location = System::Drawing::Point(0, 0);
 			this->panel5->Margin = System::Windows::Forms::Padding(2);
 			this->panel5->Name = L"panel5";
-			this->panel5->Size = System::Drawing::Size(306, 309);
+			this->panel5->Size = System::Drawing::Size(306, 334);
 			this->panel5->TabIndex = 8;
 			// 
 			// monthly_category_income
@@ -1073,7 +1077,7 @@ namespace WalletCheck
 			this->monthly_category_income->AutoSize = true;
 			this->monthly_category_income->BackColor = System::Drawing::Color::Transparent;
 			this->monthly_category_income->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->monthly_category_income->Location = System::Drawing::Point(0, 285);
+			this->monthly_category_income->Location = System::Drawing::Point(0, 310);
 			this->monthly_category_income->Margin = System::Windows::Forms::Padding(4);
 			this->monthly_category_income->Name = L"monthly_category_income";
 			this->monthly_category_income->Padding = System::Windows::Forms::Padding(4);
@@ -1113,7 +1117,7 @@ namespace WalletCheck
 			series5->Name = L"monthly_category_graph";
 			series5->YValuesPerPoint = 4;
 			this->monthly_category_income_chart->Series->Add(series5);
-			this->monthly_category_income_chart->Size = System::Drawing::Size(306, 309);
+			this->monthly_category_income_chart->Size = System::Drawing::Size(306, 334);
 			this->monthly_category_income_chart->TabIndex = 1;
 			this->monthly_category_income_chart->Text = L"chart1";
 			// 
@@ -1129,7 +1133,7 @@ namespace WalletCheck
 			this->panel6->Location = System::Drawing::Point(0, 0);
 			this->panel6->Margin = System::Windows::Forms::Padding(2);
 			this->panel6->Name = L"panel6";
-			this->panel6->Size = System::Drawing::Size(303, 309);
+			this->panel6->Size = System::Drawing::Size(303, 334);
 			this->panel6->TabIndex = 9;
 			// 
 			// yearly_category_income
@@ -1137,7 +1141,7 @@ namespace WalletCheck
 			this->yearly_category_income->AutoSize = true;
 			this->yearly_category_income->BackColor = System::Drawing::Color::Transparent;
 			this->yearly_category_income->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->yearly_category_income->Location = System::Drawing::Point(0, 285);
+			this->yearly_category_income->Location = System::Drawing::Point(0, 310);
 			this->yearly_category_income->Margin = System::Windows::Forms::Padding(4);
 			this->yearly_category_income->Name = L"yearly_category_income";
 			this->yearly_category_income->Padding = System::Windows::Forms::Padding(4);
@@ -1177,7 +1181,7 @@ namespace WalletCheck
 			series6->Name = L"monthly_balance_graph";
 			series6->YValuesPerPoint = 4;
 			this->yearly_category_income_chart->Series->Add(series6);
-			this->yearly_category_income_chart->Size = System::Drawing::Size(303, 309);
+			this->yearly_category_income_chart->Size = System::Drawing::Size(303, 334);
 			this->yearly_category_income_chart->TabIndex = 1;
 			this->yearly_category_income_chart->Text = L"chart1";
 			// 
@@ -1211,7 +1215,7 @@ namespace WalletCheck
 			// splitContainer4.Panel2
 			// 
 			this->splitContainer4->Panel2->Controls->Add(this->panel8);
-			this->splitContainer4->Size = System::Drawing::Size(612, 309);
+			this->splitContainer4->Size = System::Drawing::Size(612, 334);
 			this->splitContainer4->SplitterDistance = 428;
 			this->splitContainer4->SplitterWidth = 3;
 			this->splitContainer4->TabIndex = 5;
@@ -1228,7 +1232,7 @@ namespace WalletCheck
 			this->panel7->Location = System::Drawing::Point(0, 0);
 			this->panel7->Margin = System::Windows::Forms::Padding(2);
 			this->panel7->Name = L"panel7";
-			this->panel7->Size = System::Drawing::Size(428, 309);
+			this->panel7->Size = System::Drawing::Size(428, 334);
 			this->panel7->TabIndex = 8;
 			// 
 			// budget_value
@@ -1236,7 +1240,7 @@ namespace WalletCheck
 			this->budget_value->AutoSize = true;
 			this->budget_value->BackColor = System::Drawing::Color::Transparent;
 			this->budget_value->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->budget_value->Location = System::Drawing::Point(0, 285);
+			this->budget_value->Location = System::Drawing::Point(0, 310);
 			this->budget_value->Margin = System::Windows::Forms::Padding(4);
 			this->budget_value->Name = L"budget_value";
 			this->budget_value->Padding = System::Windows::Forms::Padding(4);
@@ -1276,7 +1280,7 @@ namespace WalletCheck
 			series7->Name = L"monthly_category_graph";
 			series7->YValuesPerPoint = 4;
 			this->budget_chart->Series->Add(series7);
-			this->budget_chart->Size = System::Drawing::Size(428, 309);
+			this->budget_chart->Size = System::Drawing::Size(428, 334);
 			this->budget_chart->TabIndex = 1;
 			// 
 			// panel8
@@ -1289,7 +1293,7 @@ namespace WalletCheck
 			this->panel8->Location = System::Drawing::Point(0, 0);
 			this->panel8->Margin = System::Windows::Forms::Padding(2);
 			this->panel8->Name = L"panel8";
-			this->panel8->Size = System::Drawing::Size(181, 309);
+			this->panel8->Size = System::Drawing::Size(181, 334);
 			this->panel8->TabIndex = 9;
 			// 
 			// flowLayoutPanel3
@@ -1299,8 +1303,20 @@ namespace WalletCheck
 			this->flowLayoutPanel3->Location = System::Drawing::Point(0, 0);
 			this->flowLayoutPanel3->Margin = System::Windows::Forms::Padding(2);
 			this->flowLayoutPanel3->Name = L"flowLayoutPanel3";
-			this->flowLayoutPanel3->Size = System::Drawing::Size(181, 309);
+			this->flowLayoutPanel3->Size = System::Drawing::Size(181, 334);
 			this->flowLayoutPanel3->TabIndex = 0;
+			// 
+			// toolStripMenuItem4
+			// 
+			this->toolStripMenuItem4->Name = L"toolStripMenuItem4";
+			this->toolStripMenuItem4->Size = System::Drawing::Size(177, 6);
+			// 
+			// OfficialSiteToolStripMenuItem
+			// 
+			this->OfficialSiteToolStripMenuItem->Name = L"OfficialSiteToolStripMenuItem";
+			this->OfficialSiteToolStripMenuItem->Size = System::Drawing::Size(180, 22);
+			this->OfficialSiteToolStripMenuItem->Text = L"公式サイト";
+			this->OfficialSiteToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::OfficialSiteToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
