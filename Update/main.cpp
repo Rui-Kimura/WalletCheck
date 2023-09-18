@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-#define ZIP_URL "https://drive.google.com/uc?id=1c_nVfy7bCiNmD9ojSWmEPhP5uP3D8Q9g"
+#define ZIP_URL "http://runachama.com/WalletCheck/files/newest/Release.zip"
 #define ZIP_NAME "Release.zip"
 #define WALLETCHECK_CFG "WalletCheck.exe.config"
 

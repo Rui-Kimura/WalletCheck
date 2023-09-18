@@ -3,8 +3,8 @@
 	MainFormÇÃíËã`èàóùÇ≈Ç∑ÅB
 */
 
-#define UPDATE_CHECK_URL "https://drive.google.com/uc?id=1IXNywsIMfF450Is0rQ8uToCI7wO3FUc5"	
-#define UPDATER_URL "https://drive.google.com/uc?id=1YUeH_mI0zC4p7wb0DEx7Sc6AtMLvE_hr"
+#define UPDATE_CHECK_URL "http://runachama.com/WalletCheck/files/newest/version.txt"	
+#define UPDATER_URL "http://runachama.com/WalletCheck/files/newest/Update.zip"
 #define UPDATER_ZIP "Update.zip"
 #define UPDATER_NAME "Update.exe"
 
