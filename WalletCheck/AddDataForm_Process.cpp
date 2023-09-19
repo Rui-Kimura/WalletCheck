@@ -61,16 +61,15 @@ Void WalletCheck::AddDataForm::_manage_items_button_click(Object^ sender,String^
 Void WalletCheck::AddDataForm::_reload_combobox(Object^ sender,String^ combobox_controlname, String^ keyname)
 {
 	ComboBox^ combobox;	//comboboxのコントロールを入れておく変数
+	Control^ sender_control = (Control^)sender;	//senderのObjectをControlにキャスト
 	Type^ sendertype = sender->GetType();	//senderのtypeを取得
-	if (sendertype == Control::typeid)	//senderがControlのとき
+	try
 	{
-		Control^ sender_control = (Control^)sender;	//senderのObjectをControlにキャスト
 		combobox = (ComboBox^)sender_control->Parent->Controls->Find(combobox_controlname, false)[0];	//指定の名前のcomboboxを見つける
 	}
-	else	//その他（他はControlで呼び出すはず）
+	catch(Exception^ e)
 	{
-		Form^ sender_form = (Form^)sender;	//senderのObjectをFormにキャスト
-		combobox = (ComboBox^)sender_form->Controls->Find(combobox_controlname, false)[0];	//指定の名前のcomboboxを見つける
+		combobox = (ComboBox^)sender_control->Controls->Find(combobox_controlname, false)[0];	//指定の名前のcomboboxを見つける
 	}
 
 

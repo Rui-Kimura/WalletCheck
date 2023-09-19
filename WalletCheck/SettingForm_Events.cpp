@@ -34,12 +34,14 @@ System::Void WalletCheck::SettingForm::update_button_Click(System::Object^ sende
 System::Void WalletCheck::SettingForm::manage_category_button_Click(System::Object^ sender, System::EventArgs^ e)
 {
 	Form^ ManageItemsDialog = gcnew ManageItemsForm("カテゴリー", "Categories");
+	ManageItemsDialog->ShowDialog();
 }
 
 /// <summary>決済方法管理ボタンが押された時のイベントです。</summary>
 System::Void WalletCheck::SettingForm::manage_payment_button_Click(System::Object^ sender, System::EventArgs^ e)
 {
 	Form^ ManageItemsDialog = gcnew ManageItemsForm("決済方法", "PaymentMethods");
+	ManageItemsDialog->ShowDialog();
 }
 
 /// <summary>キャンセルボタンが押された時のイベントです。</summary>
