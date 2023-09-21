@@ -376,19 +376,18 @@ Void WalletCheck::MainForm::_sort_donutdata_list(List<DonutData^>% list)
 {
 	//データを値で整列する
 	/// TODO:余裕があればクイックソートなどに変更する
+	DonutData^ cache_donut;
 	for (int i = 0; i < list.Count; i++)
 	{
-		int max_index = 0;
-		for (int n = i; n < list.Count; n++)
+		for (int n = i+1; n < list.Count; n++)
 		{
-			if (abs(list[n]->value) < abs(list[i]->value))
+			if (abs(list[i]->value) < abs(list[n]->value))
 			{
-				max_index = n;
+				cache_donut = list[i];
+				list[i] = list[n];
+				list[n] = cache_donut;
 			}
 		}
-		DonutData^ d = list[i];
-		list[i] = list[max_index];
-		list[max_index] = d;
 	}
 
 	//その他は一番最後にする
